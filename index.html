@@ -1,4 +1,106 @@
 ---
-layout: home
+layout: page
+title: DongGyu's Dev Log
+description: "Pushing technical limits through progressive overload"
 background: '/img/bg-index.jpg'
 ---
+
+<style>
+  /* 1. 상단 타이틀 한 줄 정렬 및 여백 최적화 */
+  header.masthead .page-heading h1 {
+    font-size: 3.5rem !important; /* 크기 조절 */
+    white-space: nowrap !important; /* 줄바꿈 강제 방지 */
+    margin-bottom: 10px !important;
+  }
+  header.masthead .page-heading .subheading {
+    margin-top: 0 !important;
+  }
+
+  /* 2. 카드 컨테이너 및 정사각형 비율 설정 */
+  .card-container {
+    padding: 20px 0;
+    max-width: 1000px;
+  }
+  
+  .category-card {
+    aspect-ratio: 1 / 1; /* 정사각형 비율 강제 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid #eee !important;
+    border-radius: 20px !important;
+    cursor: pointer;
+    background: #fff;
+    text-decoration: none !important;
+    margin-bottom: 20px;
+  }
+
+  .category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    border-color: #0085a1 !important;
+  }
+
+  .card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-weight: 800;
+    color: #333;
+    font-size: 1.25rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* 부트스트랩 row 간격 미세 조정 */
+  .row.no-gap {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+  .row.no-gap > [class*='col-'] {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+</style>
+
+<div class="container card-container">
+  <div class="row no-gap justify-content-center">
+    <div class="col-md-4 col-6">
+      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Computer-Science'">
+        <span class="card-icon">🖥️</span>
+        <h4 class="card-title">Computer<br>Science</h4>
+      </div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Dev-Languages'">
+        <span class="card-icon">☕</span>
+        <h4 class="card-title">Dev Languages</h4>
+      </div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Infra-&-DevOps'">
+        <span class="card-icon">☁️</span>
+        <h4 class="card-title">Infra & DevOps</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-gap justify-content-center">
+    <div class="col-md-4 col-6">
+      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Projects'">
+        <span class="card-icon">🚀</span>
+        <h4 class="card-title">Projects</h4>
+      </div>
+    </div>
+    <div class="col-md-4 col-6">
+      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Retrospective'">
+        <span class="card-icon">📝</span>
+        <h4 class="card-title">Retrospective</h4>
+      </div>
+    </div>
+  </div>
+</div>

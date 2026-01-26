@@ -4,45 +4,200 @@ title: Posts
 background: '/img/bg-post.jpg'
 ---
 
-{% for post in paginator.posts %}
+<style>
+  .posts-full-width {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    display: flex;
+    justify-content: flex-start;
+    background: white;
+  }
 
-<article class="post-preview">
-  <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-    <h2 class="post-title">{{ post.title }}</h2>
-    {% if post.subtitle %}
-    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-    {% else %}
-    <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-    {% endif %}
-  </a>
-  <p class="post-meta">Posted by
-    {% if post.author %}
-    {{ post.author }}
-    {% else %}
-    {{ site.author }}
-    {% endif %}
-    on {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}
-  </p>
-</article>
+  .posts-inner-flex {
+    display: flex;
+    width: 100%;
+    max-width: 1600px;
+    padding-left: 20px;
+  }
 
-<hr>
+  .sidebar-column {
+    flex: 0 0 260px;
+    padding-top: 30px;
+  }
 
-{% endfor %}
+  .sidebar-wrapper {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+  }
 
-<!-- Pager -->
-{% if paginator.total_pages > 1 %}
+  .post-list-column {
+    flex: 1;
+    padding: 30px 50px;
+    border-left: 1px solid #eee;
+  }
 
-<div class="clearfix">
+  .list-group-item {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    border: 1px solid #e9ecef !important;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-  {% if paginator.previous_page %}
-  <a class="btn btn-primary float-left" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr;
-    Newer<span class="d-none d-md-inline"> Posts</span></a>
-  {% endif %}
+  .list-group-item.active {
+    background-color: #0085a1 !important;
+    border-color: #0085a1 !important;
+    color: white !important;
+    font-weight: bold;
+  }
 
-  {% if paginator.next_page %}
-  <a class="btn btn-primary float-right" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older<span class="d-none d-md-inline"> Posts</span> &rarr;</a>
-  {% endif %}
+  #cs-sub-menu {
+    display: none;
+    background-color: #f8f9fa;
+  }
 
+  .sub-category {
+    padding-left: 35px !important;
+    font-size: 0.85rem !important;
+    border-top: none !important;
+  }
+
+  /* 화살표 아이콘 스타일 수정 */
+  .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 0.7rem;
+    color: #adb5bd;
+  }
+  
+  /* active 상태일 때 화살표 색상 변경 */
+  .active .arrow {
+    color: white;
+  }
+
+  /* 열렸을 때 (아래 방향) 회전 로직 */
+  /* 기본 ▶(오른쪽)에서 90도 회전하여 ▼(아래)가 됨 */
+  .arrow.rotate {
+    transform: rotate(90deg);
+  }
+
+  @media (max-width: 991px) {
+    .posts-full-width { left: 0; right: 0; margin: 0; width: 100%; }
+    .posts-inner-flex { flex-direction: column; padding: 15px; }
+    .sidebar-column { flex: 0 0 auto; width: 100%; }
+    .post-list-column { padding: 20px 0; border-left: none; }
+  }
+</style>
+
+<div class="posts-full-width">
+  <div class="posts-inner-flex">
+    
+    <div class="sidebar-column">
+      <div class="sidebar-wrapper shadow-sm">
+        <div class="list-group" id="category-list">
+          <div class="list-group-item list-group-item-dark" style="font-weight: bold; background: #343a40; color: white; border: none !important; cursor: default;">Categories</div>
+          
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action active" onclick="toggleSubMenu('cs-sub-menu', 'Computer-Science', this)">
+            Computer Science
+            <span class="arrow" id="cs-arrow">▶</span>
+          </a>
+          
+          <div id="cs-sub-menu">
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Data-Structure', this)">Data Structure</a>
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Operating-System', this)">Operating System</a>
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Database', this)">Database</a>
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Network', this)">Network</a>
+          </div>
+
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Dev-Languages', this)">Dev Languages</a>
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Infra-&-DevOps', this)">Infra & DevOps</a>
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Projects', this)">Projects</a>
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Retrospective', this)">Retrospective</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-list-column">
+      <div id="post-wrapper">
+        {% for post in site.posts %}
+        {% assign cat_slugs = "" %}
+        {% for cat in post.categories %}
+          {% assign slug = cat | replace: " ", "-" %}
+          {% assign cat_slugs = cat_slugs | append: " " | append: slug %}
+        {% endfor %}
+        
+        <article class="post-preview {{ cat_slugs }}">
+          <a href="{{ post.url | relative_url }}">
+            <h2 class="post-title" style="margin-top: 0; font-size: 1.8rem;">{{ post.title }}</h2>
+            <h3 class="post-subtitle" style="font-size: 1.15rem; color: #666; font-weight: 300;">
+              {% if post.subtitle %}{{ post.subtitle }}{% else %}{{ post.excerpt | strip_html | truncatewords: 15 }}{% endif %}
+            </h3>
+          </a>
+          <p class="post-meta" style="font-size: 0.85rem; color: #adb5bd;">
+            {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}
+          </p>
+          <hr>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 
-{% endif %}
+<script>
+  function toggleSubMenu(menuId, category, element) {
+    const subMenu = document.getElementById(menuId);
+    const arrow = document.getElementById('cs-arrow');
+    
+    if (subMenu.style.display === 'block') {
+      subMenu.style.display = 'none';
+      arrow.classList.remove('rotate');
+    } else {
+      subMenu.style.display = 'block';
+      arrow.classList.add('rotate');
+    }
+    
+    filterCategory(category, element);
+  }
+
+  function filterCategory(category, element) {
+    const items = document.querySelectorAll('.list-group-item-action');
+    items.forEach(item => item.classList.remove('active'));
+    element.classList.add('active');
+
+    const posts = document.querySelectorAll('.post-preview');
+    posts.forEach(post => {
+      if (category === 'Computer-Science') {
+        const csCats = ['Computer-Science', 'Data-Structure', 'Operating-System', 'Database', 'Network'];
+        const hasCS = csCats.some(cat => post.classList.contains(cat));
+        post.style.display = hasCS ? 'block' : 'none';
+      } 
+      else if (post.classList.contains(category)) {
+        post.style.display = 'block';
+      } else {
+        post.style.display = 'none';
+      }
+    });
+  }
+
+  window.onload = function() {
+    const csMenu = document.getElementById('cs-sub-menu');
+    const csArrow = document.getElementById('cs-arrow');
+    const firstCategory = document.querySelector('.list-group-item-action.active');
+    
+    // 초기 로드 시 열린 상태(▼) 유지
+    csMenu.style.display = 'block';
+    csArrow.classList.add('rotate');
+    
+    if (firstCategory) {
+      filterCategory('Computer-Science', firstCategory);
+    }
+  };
+</script>

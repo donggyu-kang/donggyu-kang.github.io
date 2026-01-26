@@ -7,11 +7,8 @@ baseurl: ""
 url: "https://donggyu-kang.github.io"
 
 # Social Profiles 
-twitter_username: ""
 github_username: "donggyu-kang"
-facebook_username: ""
-instagram_username: ""
-linkedin_username: ""
+instagram_username: "don___gyu"
 
 # Build settings
 markdown: kramdown
