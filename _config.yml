@@ -22,3 +22,6 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap
+
+  # Categories settings (테마에서 요구하는 경우)
+categories: [Computer-Science, Dev-Languages, Infra-&-DevOps, Projects, Retrospective]

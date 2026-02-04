@@ -5,6 +5,7 @@ background: '/img/bg-post.jpg'
 ---
 
 <style>
+  /* (기존 스타일 유지) */
   .posts-full-width {
     width: 100vw;
     position: relative;
@@ -58,8 +59,8 @@ background: '/img/bg-post.jpg'
     font-weight: bold;
   }
 
-  #cs-sub-menu {
-    display: none;
+  #cs-sub-menu, #retro-sub-menu {
+    display: none; /* 기본적으로 닫혀 있도록 설정 */
     background-color: #f8f9fa;
   }
 
@@ -69,7 +70,6 @@ background: '/img/bg-post.jpg'
     border-top: none !important;
   }
 
-  /* 화살표 아이콘 스타일 수정 */
   .arrow {
     display: inline-block;
     transition: transform 0.3s ease;
@@ -77,13 +77,10 @@ background: '/img/bg-post.jpg'
     color: #adb5bd;
   }
   
-  /* active 상태일 때 화살표 색상 변경 */
   .active .arrow {
     color: white;
   }
 
-  /* 열렸을 때 (아래 방향) 회전 로직 */
-  /* 기본 ▶(오른쪽)에서 90도 회전하여 ▼(아래)가 됨 */
   .arrow.rotate {
     transform: rotate(90deg);
   }
@@ -98,28 +95,33 @@ background: '/img/bg-post.jpg'
 
 <div class="posts-full-width">
   <div class="posts-inner-flex">
-    
     <div class="sidebar-column">
       <div class="sidebar-wrapper shadow-sm">
         <div class="list-group" id="category-list">
           <div class="list-group-item list-group-item-dark" style="font-weight: bold; background: #343a40; color: white; border: none !important; cursor: default;">Categories</div>
           
-          <a href="javascript:void(0)" class="list-group-item list-group-item-action active" onclick="toggleSubMenu('cs-sub-menu', 'Computer-Science', this)">
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" id="cat-Computer-Science" onclick="toggleSubMenu('cs-sub-menu', 'Computer-Science', this)">
             Computer Science
             <span class="arrow" id="cs-arrow">▶</span>
           </a>
-          
           <div id="cs-sub-menu">
-            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Data-Structure', this)">Data Structure</a>
-            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Operating-System', this)">Operating System</a>
-            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Database', this)">Database</a>
-            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" onclick="filterCategory('Network', this)">Network</a>
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" id="cat-Data-Structure" onclick="filterCategory('Data-Structure', this)">Data Structure</a>
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" id="cat-Operating-System" onclick="filterCategory('Operating-System', this)">Operating System</a>
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" id="cat-Database" onclick="filterCategory('Database', this)">Database</a>
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" id="cat-Network" onclick="filterCategory('Network', this)">Network</a>
           </div>
 
-          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Dev-Languages', this)">Dev Languages</a>
-          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Infra-&-DevOps', this)">Infra & DevOps</a>
-          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Projects', this)">Projects</a>
-          <a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="filterCategory('Retrospective', this)">Retrospective</a>
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" id="cat-Dev-Languages" onclick="filterCategory('Dev-Languages', this)">Dev Languages</a>
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" id="cat-Infra-&-DevOps" onclick="filterCategory('Infra-&-DevOps', this)">Infra & DevOps</a>
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" id="cat-Projects" onclick="filterCategory('Projects', this)">Projects</a>
+          
+          <a href="javascript:void(0)" class="list-group-item list-group-item-action" id="cat-Retrospective" onclick="toggleSubMenu('retro-sub-menu', 'Retrospective', this)">
+            Retrospective
+            <span class="arrow" id="retro-arrow">▶</span>
+          </a>
+          <div id="retro-sub-menu">
+            <a href="javascript:void(0)" class="list-group-item list-group-item-action sub-category" id="cat-Certifications" onclick="filterCategory('Certifications', this)">Certifications</a>
+          </div>
         </div>
       </div>
     </div>
@@ -132,7 +134,6 @@ background: '/img/bg-post.jpg'
           {% assign slug = cat | replace: " ", "-" %}
           {% assign cat_slugs = cat_slugs | append: " " | append: slug %}
         {% endfor %}
-        
         <article class="post-preview {{ cat_slugs }}">
           <a href="{{ post.url | relative_url }}">
             <h2 class="post-title" style="margin-top: 0; font-size: 1.8rem;">{{ post.title }}</h2>
@@ -141,7 +142,7 @@ background: '/img/bg-post.jpg'
             </h3>
           </a>
           <p class="post-meta" style="font-size: 0.85rem; color: #adb5bd;">
-            {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}
+            {{ post.date | date: '%B %d, %Y' }}
           </p>
           <hr>
         </article>
@@ -154,32 +155,37 @@ background: '/img/bg-post.jpg'
 <script>
   function toggleSubMenu(menuId, category, element) {
     const subMenu = document.getElementById(menuId);
-    const arrow = document.getElementById('cs-arrow');
+    const arrow = element.querySelector('.arrow');
     
     if (subMenu.style.display === 'block') {
       subMenu.style.display = 'none';
-      arrow.classList.remove('rotate');
+      if(arrow) arrow.classList.remove('rotate');
     } else {
       subMenu.style.display = 'block';
-      arrow.classList.add('rotate');
+      if(arrow) arrow.classList.add('rotate');
     }
-    
     filterCategory(category, element);
   }
 
   function filterCategory(category, element) {
     const items = document.querySelectorAll('.list-group-item-action');
     items.forEach(item => item.classList.remove('active'));
-    element.classList.add('active');
+    if(element) element.classList.add('active');
 
     const posts = document.querySelectorAll('.post-preview');
     posts.forEach(post => {
+      const formattedCat = category.replace(/ /g, '-');
       if (category === 'Computer-Science') {
         const csCats = ['Computer-Science', 'Data-Structure', 'Operating-System', 'Database', 'Network'];
         const hasCS = csCats.some(cat => post.classList.contains(cat));
         post.style.display = hasCS ? 'block' : 'none';
       } 
-      else if (post.classList.contains(category)) {
+      else if (category === 'Retrospective') {
+        const retroCats = ['Retrospective', 'Certifications'];
+        const hasRetro = retroCats.some(cat => post.classList.contains(cat));
+        post.style.display = hasRetro ? 'block' : 'none';
+      }
+      else if (post.classList.contains(formattedCat)) {
         post.style.display = 'block';
       } else {
         post.style.display = 'none';
@@ -188,16 +194,40 @@ background: '/img/bg-post.jpg'
   }
 
   window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    
     const csMenu = document.getElementById('cs-sub-menu');
     const csArrow = document.getElementById('cs-arrow');
-    const firstCategory = document.querySelector('.list-group-item-action.active');
-    
-    // 초기 로드 시 열린 상태(▼) 유지
-    csMenu.style.display = 'block';
-    csArrow.classList.add('rotate');
-    
-    if (firstCategory) {
-      filterCategory('Computer-Science', firstCategory);
+    const retroMenu = document.getElementById('retro-sub-menu');
+    const retroArrow = document.getElementById('retro-arrow');
+
+    // 1. URL 파라미터가 있는 경우 (해당 카테고리만 펼침)
+    if (categoryParam) {
+      const targetId = 'cat-' + categoryParam;
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        const csSubCats = ['Data-Structure', 'Operating-System', 'Database', 'Network', 'Computer-Science'];
+        if (csSubCats.includes(categoryParam)) {
+          csMenu.style.display = 'block';
+          csArrow.classList.add('rotate');
+        }
+        
+        const retroSubCats = ['Certifications', 'Retrospective'];
+        if (retroSubCats.includes(categoryParam)) {
+          retroMenu.style.display = 'block';
+          retroArrow.classList.add('rotate');
+        }
+        
+        filterCategory(categoryParam, targetElement);
+        return;
+      }
     }
+
+    // 2. 파라미터가 없는 경우 (모두 닫힌 상태로 초기화)
+    // 기본적으로 스타일에서 display: none 처리가 되어 있으므로 추가 로직 없이 필터만 실행
+    const defaultCat = document.getElementById('cat-Computer-Science');
+    filterCategory('Computer-Science', defaultCat);
   };
 </script>

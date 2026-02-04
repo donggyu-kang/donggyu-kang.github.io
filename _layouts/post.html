@@ -2,53 +2,170 @@
 layout: default
 ---
 
-<!-- Page Header -->
 {% if page.background %}
 <header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
-  {% else %}
-  <header class="masthead">
-    {% endif %}
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-heading">
-            <h1>{{ page.title }}</h1>
-            {% if page.subtitle %}
-            <h2 class="subheading">{{ page.subtitle }}</h2>
-            {% endif %}
-            <span class="meta">Posted by
-              <a href="#">{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</a>
-              on {{ page.date | date: '%B %d, %Y' }} &middot; {% include read_time.html
-              content=page.content %}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
+{% else %}
+<header class="masthead">
+{% endif %}
+  <div class="overlay"></div>
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-
-        {{ content }}
-
-        <hr>
-
-        <div class="clearfix">
-
-          {% if page.previous.url %}
-          <a class="btn btn-primary float-left" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.previous.title }}">&larr; Previous<span class="d-none d-md-inline">
-              Post</span></a>
+        <div class="post-heading">
+          <h1>{{ page.title }}</h1>
+          {% if page.subtitle %}
+          <h2 class="subheading">{{ page.subtitle }}</h2>
           {% endif %}
-          {% if page.next.url %}
-          <a class="btn btn-primary float-right" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.next.title }}">Next<span class="d-none d-md-inline">
-              Post</span> &rarr;</a>
-          {% endif %}
-
+          <span class="meta">Posted by
+            <a href="#">{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</a>
+            on {{ page.date | date: '%B %d, %Y' }}
+          </span>
         </div>
-
       </div>
     </div>
   </div>
+</header>
+
+<style>
+  /* 레이아웃 및 사이드바 스타일 */
+  .post-inner-flex {
+    display: flex;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-left: 20px;
+  }
+  .sidebar-column {
+    flex: 0 0 260px;
+    padding-top: 30px;
+  }
+  .sidebar-wrapper {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+  }
+  .content-column {
+    flex: 1;
+    padding: 30px 50px;
+    border-left: 1px solid #eee;
+  }
+  
+  /* 사이드바 아이템 공통 스타일 */
+  .list-group-item {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    border: 1px solid #e9ecef !important;
+    text-decoration: none !important;
+    color: #495057;
+    display: block;
+    transition: all 0.2s ease;
+  }
+  
+  /* 마우스 호버 효과 */
+  .list-group-item:hover {
+    background-color: #f8f9fa;
+    color: #0085a1;
+  }
+
+  /* 활성화된(선택된) 카테고리 강조 */
+  .list-group-item.active {
+    background-color: #0085a1 !important;
+    border-color: #0085a1 !important;
+    color: white !important;
+    font-weight: bold;
+  }
+  
+  /* 세부 카테고리(하위 항목) 스타일 */
+  .sub-category {
+    padding-left: 35px !important;
+    font-size: 0.85rem !important;
+    background-color: #f8f9fa;
+  }
+
+  /* 모바일 대응 */
+  @media (max-width: 991px) {
+    .post-inner-flex { flex-direction: column; padding: 15px; }
+    .sidebar-column { display: none; } /* 모바일에서는 본문 가독성을 위해 사이드바 숨김 */
+    .content-column { padding: 20px 0; border-left: none; }
+  }
+</style>
+
+<div class="post-inner-flex">
+  <aside class="sidebar-column">
+    <div class="sidebar-wrapper shadow-sm">
+      <div class="list-group" id="post-sidebar-list">
+        <div class="list-group-item list-group-item-dark" style="font-weight: bold; background: #343a40; color: white; border: none !important; cursor: default;">Categories</div>
+        
+        <a href="/posts/?category=Computer-Science" class="list-group-item" data-category="Computer-Science">Computer Science</a>
+        <a href="/posts/?category=Data-Structure" class="list-group-item sub-category" data-category="Data-Structure">Data Structure</a>
+        <a href="/posts/?category=Operating-System" class="list-group-item sub-category" data-category="Operating-System">Operating System</a>
+        <a href="/posts/?category=Database" class="list-group-item sub-category" data-category="Database">Database</a>
+        <a href="/posts/?category=Network" class="list-group-item sub-category" data-category="Network">Network</a>
+        
+        <a href="/posts/?category=Dev-Languages" class="list-group-item" data-category="Dev-Languages">Dev Languages</a>
+        <a href="/posts/?category=Infra-&-DevOps" class="list-group-item" data-category="Infra-&-DevOps">Infra & DevOps</a>
+        <a href="/posts/?category=Projects" class="list-group-item" data-category="Projects">Projects</a>
+        
+        <a href="/posts/?category=Retrospective" class="list-group-item" data-category="Retrospective">Retrospective</a>
+        <a href="/posts/?category=Certifications" class="list-group-item sub-category" data-category="Certifications">Certifications</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content-column">
+    <div class="container-fluid">
+      <div class="post-content">
+        {{ content }}
+      </div>
+      
+      <hr>
+
+      <div class="clearfix">
+        {% if page.previous.url %}
+        <a class="btn btn-primary float-left" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.previous.title }}">&larr; Previous Post</a>
+        {% endif %}
+        {% if page.next.url %}
+        <a class="btn btn-primary float-right" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.next.title }}">Next Post &rarr;</a>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // 1. 현재 포스트에 설정된 모든 카테고리를 가져옴 (공백은 하이픈으로 치환)
+    const postCategories = [
+      {% for cat in page.categories %}
+        "{{ cat | replace: ' ', '-' }}"{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ];
+
+    // 2. 사이드바의 메뉴 항목들을 가져옴
+    const menuItems = document.querySelectorAll('#post-sidebar-list .list-group-item');
+    
+    // 3. 강조 우선순위를 정하기 위한 세부 카테고리 목록 정의
+    const detailCategories = ['Data-Structure', 'Operating-System', 'Database', 'Network', 'Certifications'];
+    
+    // 4. 현재 포스트가 세부 카테고리를 가지고 있는지 확인
+    const hasDetail = postCategories.some(cat => detailCategories.includes(cat));
+
+    menuItems.forEach(item => {
+      const itemCat = item.getAttribute('data-category');
+      
+      if (hasDetail) {
+        // 세부 카테고리가 있는 포스트라면: 세부 카테고리 메뉴만 active 추가
+        if (detailCategories.includes(itemCat) && postCategories.includes(itemCat)) {
+          item.classList.add('active');
+          
+          // (선택사항) 세부 카테고리가 활성화되면 부모 메뉴를 펼치는 로직을 여기에 추가할 수 있음
+        }
+      } else {
+        // 세부 카테고리가 없는 포스트라면: 상위 카테고리 메뉴에 active 추가
+        if (postCategories.includes(itemCat)) {
+          item.classList.add('active');
+        }
+      }
+    });
+  });
+</script>
