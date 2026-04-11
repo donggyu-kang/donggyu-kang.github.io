@@ -6,101 +6,137 @@ background: '/img/bg-index.jpg'
 ---
 
 <style>
-  /* 1. 상단 타이틀 한 줄 정렬 및 여백 최적화 */
+  /* ── 타이틀 ── */
   header.masthead .page-heading h1 {
-    font-size: 3.5rem !important; /* 크기 조절 */
-    white-space: nowrap !important; /* 줄바꿈 강제 방지 */
-    margin-bottom: 10px !important;
-  }
-  header.masthead .page-heading .subheading {
-    margin-top: 0 !important;
+    font-size: 2.8rem !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.06em !important;
   }
 
-  /* 2. 카드 컨테이너 및 정사각형 비율 설정 */
-  .card-container {
-    padding: 20px 0;
-    max-width: 1000px;
+  /* ── 카테고리 섹션 ── */
+  .category-section {
+    padding: 56px 0 80px;
   }
-  
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
   .category-card {
-    aspect-ratio: 1 / 1; /* 정사각형 비율 강제 */
+    background: #FFFCF7;
+    border: 1px solid #E2D9CC;
+    border-radius: 18px;
+    padding: 36px 20px 28px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    transition: all 0.3s ease;
-    border: 1px solid #eee !important;
-    border-radius: 20px !important;
-    cursor: pointer;
-    background: #fff;
+    text-align: center;
     text-decoration: none !important;
-    margin-bottom: 20px;
+    color: inherit !important;
+    cursor: pointer;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .category-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #8B6F47, #C4975A);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
   }
 
   .category-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-    border-color: #0085a1 !important;
+    transform: translateY(-7px);
+    box-shadow: 0 18px 48px rgba(100, 70, 30, 0.13);
+    border-color: #C4A882;
+    text-decoration: none !important;
+    color: inherit !important;
   }
 
-  .card-icon {
-    font-size: 3.5rem;
-    margin-bottom: 10px;
+  .category-card:hover::after {
+    transform: scaleX(1);
+  }
+
+  .card-icon-wrap {
+    width: 52px;
+    height: 52px;
+    background: #EDE5D8;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: 1.25rem;
+    color: #2A2118;
+    transition: background 0.28s ease, transform 0.28s ease;
+  }
+
+  .card-icon-wrap i {
+    color: #2A2118;
+  }
+
+  .category-card:hover .card-icon-wrap {
+    background: #DED0BC;
+    transform: scale(1.06);
   }
 
   .card-title {
-    font-weight: 800;
-    color: #333;
-    font-size: 1.25rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #2A2118;
     margin: 0;
-    text-align: center;
+    letter-spacing: 0.01em;
+    line-height: 1.5;
   }
 
-  /* 부트스트랩 row 간격 미세 조정 */
-  .row.no-gap {
-    margin-left: -10px;
-    margin-right: -10px;
-  }
-  .row.no-gap > [class*='col-'] {
-    padding-left: 10px;
-    padding-right: 10px;
+  @media (max-width: 768px) {
+    .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    header.masthead .page-heading h1 {
+      font-size: 2rem !important;
+      white-space: normal !important;
+    }
   }
 </style>
 
-<div class="container card-container">
-  <div class="row no-gap justify-content-center">
-    <div class="col-md-4 col-6">
-      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Computer-Science'">
-        <span class="card-icon">🖥️</span>
-        <h4 class="card-title">Computer<br>Science</h4>
-      </div>
-    </div>
-    <div class="col-md-4 col-6">
-      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Dev-Languages'">
-        <span class="card-icon">☕</span>
-        <h4 class="card-title">Dev Languages</h4>
-      </div>
-    </div>
-    <div class="col-md-4 col-6">
-      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Infra-&-DevOps'">
-        <span class="card-icon">☁️</span>
-        <h4 class="card-title">Infra & DevOps</h4>
-      </div>
-    </div>
-  </div>
-
-  <div class="row no-gap justify-content-center">
-    <div class="col-md-4 col-6">
-      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Projects'">
-        <span class="card-icon">🚀</span>
-        <h4 class="card-title">Projects</h4>
-      </div>
-    </div>
-    <div class="col-md-4 col-6">
-      <div class="card category-card shadow-sm" onclick="location.href='/posts/?category=Retrospective'">
-        <span class="card-icon">📝</span>
-        <h4 class="card-title">Retrospective</h4>
-      </div>
-    </div>
+<div class="category-section">
+  <div class="category-grid">
+    <a class="category-card" href="/posts/?category=Computer-Science">
+      <div class="card-icon-wrap"><i class="fas fa-microchip"></i></div>
+      <h4 class="card-title">Computer<br>Science</h4>
+    </a>
+    <a class="category-card" href="/posts/?category=Dev-Languages">
+      <div class="card-icon-wrap"><i class="fas fa-code"></i></div>
+      <h4 class="card-title">Dev Languages</h4>
+    </a>
+    <a class="category-card" href="/posts/?category=Infra-&-DevOps">
+      <div class="card-icon-wrap"><i class="fas fa-server"></i></div>
+      <h4 class="card-title">Infra &amp; DevOps</h4>
+    </a>
+    <a class="category-card" href="/posts/?category=Projects">
+      <div class="card-icon-wrap"><i class="fas fa-layer-group"></i></div>
+      <h4 class="card-title">Projects</h4>
+    </a>
+    <a class="category-card" href="/posts/?category=Certifications">
+      <div class="card-icon-wrap"><i class="fas fa-award"></i></div>
+      <h4 class="card-title">Certifications</h4>
+    </a>
+    <a class="category-card" href="/posts/?category=Retrospective">
+      <div class="card-icon-wrap"><i class="fas fa-book-open"></i></div>
+      <h4 class="card-title">Retrospective</h4>
+    </a>
   </div>
 </div>

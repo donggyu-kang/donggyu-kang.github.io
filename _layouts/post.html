@@ -18,7 +18,7 @@ layout: default
           {% endif %}
           <span class="meta">Posted by
             <a href="#">{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</a>
-            on {{ page.date | date: '%B %d, %Y' }}
+            on {{ page.date | date: '%Y년 %m월 %d일' }}
           </span>
         </div>
       </div>
@@ -27,7 +27,6 @@ layout: default
 </header>
 
 <style>
-  /* 레이아웃 및 사이드바 스타일 */
   .post-inner-flex {
     display: flex;
     width: 100%;
@@ -35,136 +34,204 @@ layout: default
     margin: 0 auto;
     padding-left: 20px;
   }
+
+  /* ── 사이드바 ── */
   .sidebar-column {
-    flex: 0 0 260px;
-    padding-top: 30px;
+    flex: 0 0 230px;
+    padding-top: 32px;
   }
   .sidebar-wrapper {
     position: sticky;
-    top: 100px;
+    top: 90px;
     z-index: 10;
   }
+  .sidebar-nav {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 14px rgba(80, 55, 20, 0.08);
+  }
+  .sidebar-nav .sidebar-header {
+    background: #4A3520;
+    color: #FDF6EC;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 13px 16px;
+    text-transform: uppercase;
+  }
+  /* 모든 항목 공통: 아이콘 왼쪽, 텍스트 가운데 */
+  .sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    color: #2A2118;
+    background: #FBF8F2;
+    border-bottom: 1px solid #EAE2D4;
+    text-decoration: none !important;
+    transition: background 0.18s, color 0.18s;
+  }
+  .sidebar-nav a:last-child { border-bottom: none; }
+  .sidebar-nav a:hover { background: #F0E8DA; color: #1A120A; }
+  .sidebar-nav a.active {
+    background: #8B6F47 !important;
+    color: #fff !important;
+    font-weight: 600;
+  }
+
+  /* 아이콘: 왼쪽 고정 크기 */
+  .sidebar-nav a i {
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #7A6A55;
+  }
+  .sidebar-nav a.active i { color: rgba(255,255,255,0.8); }
+
+  /* 텍스트: 남은 공간에서 가운데 정렬 */
+  .sidebar-nav a .item-text {
+    flex: 1;
+    text-align: center;
+  }
+
+  /* 하위 항목 */
+  .sidebar-nav a.sub-item {
+    font-size: 0.83rem;
+    background: #F5EFE5;
+    color: #5A4A38;
+  }
+  .sidebar-nav a.sub-item:hover { background: #EBE2D4; color: #2A2118; }
+  .sidebar-nav a.sub-item.active { background: #8B6F47 !important; color: #fff !important; }
+  .sidebar-nav a.sub-item.active i { color: rgba(255,255,255,0.8); }
+
+  /* CS 토글 화살표 */
+  .cs-toggle { cursor: pointer; }
+  .cs-arrow {
+    flex-shrink: 0;
+    font-size: 0.6rem;
+    color: #A09080;
+    transition: transform 0.25s ease;
+  }
+  .cs-arrow.rotate { transform: rotate(90deg); }
+  .cs-active .cs-arrow { color: rgba(255,255,255,0.6); }
+  #post-cs-sub { display: none; }
+
+  /* ── 본문 ── */
   .content-column {
     flex: 1;
-    padding: 30px 50px;
-    border-left: 1px solid #eee;
+    padding: 36px 52px;
+    border-left: 1px solid #DDD5C4;
+    min-width: 0;
   }
-  
-  /* 사이드바 아이템 공통 스타일 */
-  .list-group-item {
-    padding: 12px 15px;
-    font-size: 0.95rem;
-    border: 1px solid #e9ecef !important;
-    text-decoration: none !important;
-    color: #495057;
-    display: block;
-    transition: all 0.2s ease;
+  .post-content h1, .post-content h2, .post-content h3,
+  .post-content h4, .post-content h5 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1A120A;
+    margin-top: 2.2rem;
+    margin-bottom: 0.8rem;
   }
-  
-  /* 마우스 호버 효과 */
-  .list-group-item:hover {
-    background-color: #f8f9fa;
-    color: #0085a1;
+  .post-content p { line-height: 1.9; margin: 20px 0; }
+  .post-content hr { border-color: #DDD5C4; margin: 32px 0; }
+
+  /* ── 이전/다음 버튼 ── */
+  .post-nav-btns { margin-top: 32px; }
+  .post-nav-btns .btn-primary {
+    background-color: #8B6F47 !important;
+    border-color: #8B6F47 !important;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 18px;
+  }
+  .post-nav-btns .btn-primary:hover {
+    background-color: #7A5F3A !important;
+    border-color: #7A5F3A !important;
   }
 
-  /* 활성화된(선택된) 카테고리 강조 */
-  .list-group-item.active {
-    background-color: #0085a1 !important;
-    border-color: #0085a1 !important;
-    color: white !important;
-    font-weight: bold;
-  }
-  
-  /* 세부 카테고리(하위 항목) 스타일 */
-  .sub-category {
-    padding-left: 35px !important;
-    font-size: 0.85rem !important;
-    background-color: #f8f9fa;
-  }
-
-  /* 모바일 대응 */
   @media (max-width: 991px) {
     .post-inner-flex { flex-direction: column; padding: 15px; }
-    .sidebar-column { display: none; } /* 모바일에서는 본문 가독성을 위해 사이드바 숨김 */
+    .sidebar-column { display: none; }
     .content-column { padding: 20px 0; border-left: none; }
   }
 </style>
 
 <div class="post-inner-flex">
+  <!-- 사이드바 -->
   <aside class="sidebar-column">
-    <div class="sidebar-wrapper shadow-sm">
-      <div class="list-group" id="post-sidebar-list">
-        <div class="list-group-item list-group-item-dark" style="font-weight: bold; background: #343a40; color: white; border: none !important; cursor: default;">Categories</div>
-        
-        <a href="/posts/?category=Computer-Science" class="list-group-item" data-category="Computer-Science">Computer Science</a>
-        <a href="/posts/?category=Data-Structure" class="list-group-item sub-category" data-category="Data-Structure">Data Structure</a>
-        <a href="/posts/?category=Operating-System" class="list-group-item sub-category" data-category="Operating-System">Operating System</a>
-        <a href="/posts/?category=Database" class="list-group-item sub-category" data-category="Database">Database</a>
-        <a href="/posts/?category=Network" class="list-group-item sub-category" data-category="Network">Network</a>
-        
-        <a href="/posts/?category=Dev-Languages" class="list-group-item" data-category="Dev-Languages">Dev Languages</a>
-        <a href="/posts/?category=Infra-&-DevOps" class="list-group-item" data-category="Infra-&-DevOps">Infra & DevOps</a>
-        <a href="/posts/?category=Projects" class="list-group-item" data-category="Projects">Projects</a>
-        
-        <a href="/posts/?category=Retrospective" class="list-group-item" data-category="Retrospective">Retrospective</a>
-        <a href="/posts/?category=Certifications" class="list-group-item sub-category" data-category="Certifications">Certifications</a>
-      </div>
+    <div class="sidebar-wrapper">
+      <nav class="sidebar-nav" id="post-sidebar-list">
+        <div class="sidebar-header">Categories</div>
+
+        <a href="javascript:void(0)" class="cs-toggle" id="post-cs-toggle" data-category="Computer-Science" onclick="togglePostCS()"><i class="fas fa-microchip"></i><span class="item-text">Computer Science</span><span class="cs-arrow" id="post-cs-arrow">▶</span></a>
+        <div id="post-cs-sub">
+          <a href="/posts/?category=Data-Structure" class="sub-item" data-category="Data-Structure"><i class="fas fa-sitemap"></i><span class="item-text">Data Structure</span></a>
+          <a href="/posts/?category=Operating-System" class="sub-item" data-category="Operating-System"><i class="fas fa-desktop"></i><span class="item-text">Operating System</span></a>
+          <a href="/posts/?category=Database" class="sub-item" data-category="Database"><i class="fas fa-database"></i><span class="item-text">Database</span></a>
+          <a href="/posts/?category=Network" class="sub-item" data-category="Network"><i class="fas fa-network-wired"></i><span class="item-text">Network</span></a>
+        </div>
+        <a href="/posts/?category=Dev-Languages" data-category="Dev-Languages"><i class="fas fa-code"></i><span class="item-text">Dev Languages</span></a>
+        <a href="/posts/?category=Infra-&-DevOps" data-category="Infra-&-DevOps"><i class="fas fa-server"></i><span class="item-text">Infra &amp; DevOps</span></a>
+        <a href="/posts/?category=Projects" data-category="Projects"><i class="fas fa-layer-group"></i><span class="item-text">Projects</span></a>
+        <a href="/posts/?category=Certifications" data-category="Certifications"><i class="fas fa-award"></i><span class="item-text">Certifications</span></a>
+        <a href="/posts/?category=Retrospective" data-category="Retrospective"><i class="fas fa-book-open"></i><span class="item-text">Retrospective</span></a>
+      </nav>
     </div>
   </aside>
 
+  <!-- 본문 -->
   <main class="content-column">
-    <div class="container-fluid">
-      <div class="post-content">
-        {{ content }}
-      </div>
-      
-      <hr>
+    <div class="post-content">
+      {{ content }}
+    </div>
 
-      <div class="clearfix">
-        {% if page.previous.url %}
-        <a class="btn btn-primary float-left" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.previous.title }}">&larr; Previous Post</a>
-        {% endif %}
-        {% if page.next.url %}
-        <a class="btn btn-primary float-right" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.next.title }}">Next Post &rarr;</a>
-        {% endif %}
-      </div>
+    <hr>
+
+    <div class="clearfix post-nav-btns">
+      {% if page.previous.url %}
+      <a class="btn btn-primary float-left" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}"
+        data-toggle="tooltip" data-placement="top" title="{{ page.previous.title }}">&larr; 이전 글</a>
+      {% endif %}
+      {% if page.next.url %}
+      <a class="btn btn-primary float-right" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}"
+        data-toggle="tooltip" data-placement="top" title="{{ page.next.title }}">다음 글 &rarr;</a>
+      {% endif %}
     </div>
   </main>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // 1. 현재 포스트에 설정된 모든 카테고리를 가져옴 (공백은 하이픈으로 치환)
+  function togglePostCS() {
+    const sub = document.getElementById('post-cs-sub');
+    const arrow = document.getElementById('post-cs-arrow');
+    const isOpen = sub.style.display === 'block';
+    sub.style.display = isOpen ? 'none' : 'block';
+    arrow.classList.toggle('rotate', !isOpen);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
     const postCategories = [
-      {% for cat in page.categories %}
-        "{{ cat | replace: ' ', '-' }}"{% unless forloop.last %},{% endunless %}
-      {% endfor %}
+      {% for cat in page.categories %}"{{ cat | replace: ' ', '-' }}"{% unless forloop.last %},{% endunless %}{% endfor %}
     ];
 
-    // 2. 사이드바의 메뉴 항목들을 가져옴
-    const menuItems = document.querySelectorAll('#post-sidebar-list .list-group-item');
-    
-    // 3. 강조 우선순위를 정하기 위한 세부 카테고리 목록 정의
-    const detailCategories = ['Data-Structure', 'Operating-System', 'Database', 'Network', 'Certifications'];
-    
-    // 4. 현재 포스트가 세부 카테고리를 가지고 있는지 확인
-    const hasDetail = postCategories.some(cat => detailCategories.includes(cat));
+    const csSubCats = ['Data-Structure', 'Operating-System', 'Database', 'Network'];
+    const hasCSSubCat = postCategories.some(c => csSubCats.includes(c));
+    const hasCS = postCategories.includes('Computer-Science') || hasCSSubCat;
 
-    menuItems.forEach(item => {
-      const itemCat = item.getAttribute('data-category');
-      
-      if (hasDetail) {
-        // 세부 카테고리가 있는 포스트라면: 세부 카테고리 메뉴만 active 추가
-        if (detailCategories.includes(itemCat) && postCategories.includes(itemCat)) {
-          item.classList.add('active');
-          
-          // (선택사항) 세부 카테고리가 활성화되면 부모 메뉴를 펼치는 로직을 여기에 추가할 수 있음
-        }
+    // CS 하위 포스트면 토글 자동 펼침
+    if (hasCS) {
+      document.getElementById('post-cs-sub').style.display = 'block';
+      document.getElementById('post-cs-arrow').classList.add('rotate');
+    }
+
+    // active 표시
+    document.querySelectorAll('#post-sidebar-list a[data-category]').forEach(item => {
+      const cat = item.getAttribute('data-category');
+      if (hasCSSubCat) {
+        if (csSubCats.includes(cat) && postCategories.includes(cat)) item.classList.add('active');
       } else {
-        // 세부 카테고리가 없는 포스트라면: 상위 카테고리 메뉴에 active 추가
-        if (postCategories.includes(itemCat)) {
-          item.classList.add('active');
-        }
+        if (postCategories.includes(cat)) item.classList.add('active');
       }
     });
   });

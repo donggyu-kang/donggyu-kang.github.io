@@ -1,8 +1,8 @@
 // Styling for the navbar
 #mainNav {
     position: absolute;
-    border-bottom: 1px solid $gray-200;
-    background-color: white;
+    border-bottom: 1px solid #E8DDD0;
+    background-color: #FDFBF8;
     font-family: $headings-font-family;
 
     .navbar-brand {
@@ -30,16 +30,16 @@
     }
 
     @media only screen and (min-width: 992px) {
-        border-bottom: 1px solid transparent;
-        background: transparent;
+        border-bottom: 1px solid #DDD5C4;
+        background-color: rgba(242, 237, 228, 0.97);
 
         .navbar-brand {
             padding: 10px 20px;
-            color: $white;
+            color: #2A2118;
 
             &:focus,
             &:hover {
-                color: fade-out($white, .2);
+                color: $primary;
             }
         }
 
@@ -47,11 +47,11 @@
             >li.nav-item {
                 >a {
                     padding: 10px 20px;
-                    color: $white;
+                    color: #2A2118;
 
                     &:focus,
                     &:hover {
-                        color: fade-out($white, .2);
+                        color: $primary;
                     }
                 }
             }
@@ -78,8 +78,8 @@
             -webkit-transition: -webkit-transform 0.2s;
             -moz-transition: -moz-transform 0.2s;
             transition: transform 0.2s;
-            border-bottom: 1px solid darken($white, .05);
-            background-color: fade-out($white, .1);
+            border-bottom: 1px solid #DDD5C4;
+            background-color: rgba(242, 237, 228, 0.97);
 
             .navbar-brand {
                 color: $gray-900;
