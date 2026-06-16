@@ -1,0 +1,443 @@
+---
+layout: default
+title: Resume
+---
+
+<style>
+  /* ── 화면용 래퍼 ── */
+  .resume-page {
+    padding: 100px 24px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .resume-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 860px;
+  }
+
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid #10B981;
+    background: transparent;
+    color: #10B981;
+    text-decoration: none !important;
+    transition: all 0.2s;
+  }
+  .btn-action:hover {
+    background: #10B981;
+    color: #0D1117 !important;
+  }
+
+  /* ── 이력서 본체 (인쇄 시 이게 PDF가 됨) ── */
+  .resume-doc {
+    width: 100%;
+    max-width: 860px;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 52px 56px;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+    line-height: 1.7;
+  }
+
+  /* ── 상단 헤더 ── */
+  .r-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #1a1a1a;
+    margin-bottom: 24px;
+  }
+
+  .r-name {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 4px;
+    letter-spacing: -0.03em;
+  }
+
+  .r-role {
+    font-size: 0.95rem;
+    color: #10B981;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .r-contacts {
+    text-align: right;
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .r-contacts li {
+    font-size: 0.8rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+  }
+
+  .r-contacts a { color: #555; text-decoration: none; }
+  .r-contacts i { color: #10B981; font-size: 0.72rem; width: 12px; text-align: center; }
+
+  /* ── 섹션 공통 ── */
+  .r-section { margin-bottom: 22px; }
+
+  .r-section-title {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #10B981;
+    border-bottom: 1.5px solid #10B981;
+    padding-bottom: 4px;
+    margin: 0 0 14px;
+  }
+
+  /* ── 소개 ── */
+  .r-intro {
+    font-size: 0.88rem;
+    color: #333;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  /* ── 기술 스택 ── */
+  .r-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .r-skill-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 0.85rem;
+  }
+
+  .r-skill-label {
+    width: 80px;
+    flex-shrink: 0;
+    font-weight: 700;
+    color: #1a1a1a;
+    font-size: 0.8rem;
+  }
+
+  .r-skill-val { color: #333; }
+
+  /* ── 항목 공통 ── */
+  .r-item { margin-bottom: 18px; }
+  .r-item:last-child { margin-bottom: 0; }
+
+  .r-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+
+  .r-item-title {
+    font-size: 0.97rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .r-item-period {
+    font-size: 0.75rem;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  .r-item-sub {
+    font-size: 0.82rem;
+    color: #10B981;
+    font-weight: 600;
+    margin: 0 0 7px;
+  }
+
+  .r-item-desc {
+    list-style: none;
+    padding: 0; margin: 0;
+    font-size: 0.83rem;
+    color: #444;
+  }
+
+  .r-item-desc li {
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.75;
+    margin-bottom: 3px;
+  }
+
+  .r-item-desc li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: #10B981;
+    font-size: 0.7rem;
+    top: 3px;
+  }
+
+  .r-item-desc li strong { color: #1a1a1a; font-weight: 700; }
+
+  .r-tech {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .r-tech span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 3px;
+    background: #f3f4f6;
+    color: #444;
+    border: 1px solid #e5e7eb;
+  }
+
+  /* 2단 레이아웃 (학력 + 자격증) */
+  .r-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  /* ── 인쇄 ── */
+  @media print {
+    @page { margin: 16mm 14mm; size: A4; }
+
+    body, html { background: #fff !important; }
+    #mainNav, footer, .resume-actions { display: none !important; }
+    .resume-page { padding: 0 !important; }
+
+    .resume-doc {
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+
+    .r-item-desc li { page-break-inside: avoid; }
+    .r-section { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 640px) {
+    .resume-doc { padding: 32px 22px; }
+    .r-header { flex-direction: column; gap: 16px; }
+    .r-contacts { text-align: left; }
+    .r-contacts li { justify-content: flex-start; }
+    .r-two-col { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+
+<div class="resume-page">
+
+  <div class="resume-actions">
+    <button class="btn-action" onclick="window.print()">
+      <i class="fas fa-download"></i> PDF 저장 / 인쇄
+    </button>
+  </div>
+
+  <div class="resume-doc">
+
+    <!-- 헤더 -->
+    <div class="r-header">
+      <div>
+        <h1 class="r-name">강동규</h1>
+        <p class="r-role">Backend Developer</p>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:20px;">
+        <ul class="r-contacts">
+          <li><i class="fas fa-phone"></i> 010-****-****</li>
+          <li><i class="fas fa-envelope"></i> <a href="mailto:kangkg0067@gmail.com">kangkg0067@gmail.com</a></li>
+          <li><i class="fab fa-github"></i> <a href="https://github.com/donggyu-kang" target="_blank">github.com/donggyu-kang</a></li>
+          <li><i class="fas fa-globe"></i> <a href="https://donggyu-kang.github.io" target="_blank">donggyu-kang.github.io</a></li>
+        </ul>
+        <img src="/assets/profile.png" alt="증명사진"
+          style="width:90px; height:110px; object-fit:cover; object-position:center top;
+                 border:1px solid #e5e7eb; flex-shrink:0;">
+      </div>
+    </div>
+
+    <!-- 소개 -->
+    <div class="r-section">
+      <p class="r-section-title">About</p>
+      <p class="r-intro">
+        Java/Spring Boot 기반 백엔드 개발을 주력으로 하며, 인증 시스템 설계·CI/CD 구축·분산 시스템 연동 경험을 보유하고 있습니다.
+        팀 프로젝트에서 인증/보안 모듈과 핵심 API를 직접 설계·구현한 경험을 바탕으로, 유지보수하기 좋은 서버를 만드는 개발자를 목표로 하고 있습니다.
+      </p>
+    </div>
+
+    <!-- 기술 스택 -->
+    <div class="r-section">
+      <p class="r-section-title">Skills</p>
+      <div class="r-skills">
+        <div class="r-skill-row">
+          <span class="r-skill-label">Language</span>
+          <span class="r-skill-val">Java 17, Python</span>
+        </div>
+        <div class="r-skill-row">
+          <span class="r-skill-label">Backend</span>
+          <span class="r-skill-val">Spring Boot 3, Spring Security, JWT, OAuth2, FastAPI</span>
+        </div>
+        <div class="r-skill-row">
+          <span class="r-skill-label">Database</span>
+          <span class="r-skill-val">MySQL, PostgreSQL</span>
+        </div>
+        <div class="r-skill-row">
+          <span class="r-skill-label">Infra / DevOps</span>
+          <span class="r-skill-val">Docker, AWS EC2/ALB, GitHub Actions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 프로젝트 -->
+    <div class="r-section">
+      <p class="r-section-title">Projects</p>
+
+      <!-- Postura -->
+      <div class="r-item">
+        <div class="r-item-header">
+          <h3 class="r-item-title">Postura</h3>
+          <span class="r-item-period">2025 (진행 중)</span>
+        </div>
+        <p class="r-item-sub">AI 기반 자세 교정 헬스케어 서비스 · 백엔드 인증/보안 + CI/CD 담당 · 5인 팀 (프론트 2, AI 1, 백엔드 2) · <strong style="color:#10B981;">최우수상 수상</strong></p>
+        <ul class="r-item-desc">
+          <li><strong>소셜 로그인 전체 구현</strong> — Google(OIDC)·Kakao(OAuth2)를 Spring Security OAuth2로 구현; provider 불일치·중복 이메일 엣지 케이스 처리 및 사용자 자동 가입/업데이트 로직 작성</li>
+          <li><strong>JWT 인증 시스템 설계 및 구현</strong> — AccessToken/RefreshToken 이중 토큰 방식, JwtTokenProvider·JwtAuthenticationFilter 작성, 로컬·소셜 공통 토큰 발급 인터페이스 통일</li>
+          <li><strong>Spring Security 보안 설정 전담</strong> — Stateless 세션, CORS 최소화, 경로별 인가 정책, OAuth2 성공·실패 핸들러 작성</li>
+          <li><strong>CI/CD 파이프라인 구축</strong> — GitHub Actions로 Docker 이미지 빌드·푸시 및 AWS EC2 자동 배포; AWS ALB HealthCheck 엔드포인트 연동</li>
+          <li><strong>콘텐츠 검색 API</strong> — 카테고리·키워드·신체 관련 부위 복합 조건 JPQL 검색 쿼리 작성 및 REST API 노출</li>
+        </ul>
+        <div class="r-tech">
+          <span>Java 17</span><span>Spring Boot 3</span><span>Spring Security</span><span>OAuth2</span><span>JWT</span><span>JPA</span><span>MySQL</span><span>Docker</span><span>AWS EC2/ALB</span><span>GitHub Actions</span>
+        </div>
+      </div>
+
+      <!-- Clean View AI -->
+      <div class="r-item">
+        <div class="r-item-header">
+          <h3 class="r-item-title">Clean View AI</h3>
+          <span class="r-item-period">2026</span>
+        </div>
+        <p class="r-item-sub">RAG 기반 AI 챗봇 (기억 시각화·데이터 주권 기능) · Spring Boot 백엔드 + CI/CD 담당 · 3인 팀 (기여 43%, 78/181 커밋)</p>
+        <ul class="r-item-desc">
+          <li><strong>Spring Boot 백엔드 담당</strong> — JWT 인증, 채팅 세션 CRUD, FastAPI AI 엔진 프록시, 크로스 세션 맥락 필터(allowed/excluded_session_ids) 설계 및 구현 (AI 백엔드는 별도 담당)</li>
+          <li><strong>기억 차단(데이터 주권) API 설계</strong> — 사용자가 특정 대화방 기억을 차단/해제하는 ChatSessionBlock 엔티티 구현; source_session_ids JSONB 필터로 파생 청크까지 이중 차단하는 트랩 방지 로직 추가</li>
+          <li><strong>분산 추적(Jaeger) 연동</strong> — W3C traceparent 헤더 주입으로 Spring Boot→FastAPI 추적 연결; Jaeger HTTP API 파싱 후 단계별 소요 시간·유사도 점수를 프론트엔드에 반환하는 TraceService 독립 구현</li>
+          <li><strong>프론트엔드 실데이터 전환</strong> — 목업 전체 제거 후 세션·메시지·AI 응답 실 API 연동, segments/references 기반 기억 하이라이팅 렌더링 구현</li>
+          <li><strong>CI/CD 파이프라인 구축</strong> — GitHub Actions 경로 기반 선택적 빌드(backend/frontend/ai-engine), Docker 레이어 캐싱, K3s 자동 재배포 워크플로우 설계 및 구현</li>
+        </ul>
+        <div class="r-tech">
+          <span>Java</span><span>Spring Boot</span><span>Spring Security</span><span>JWT</span><span>PostgreSQL</span><span>OpenTelemetry</span><span>Docker</span><span>GitHub Actions</span><span>React</span>
+        </div>
+      </div>
+
+      <!-- SkyDetect -->
+      <div class="r-item">
+        <div class="r-item-header">
+          <h3 class="r-item-title">SkyDetect</h3>
+          <span class="r-item-period">2026</span>
+        </div>
+        <p class="r-item-sub">드론·조류 실시간 AI 분류 시스템 · 분류(C파트) 전담 · 3인 팀</p>
+        <ul class="r-item-desc">
+          <li><strong>RF 분류기 구현</strong> — FeatureVector를 입력받아 bird/drone/uncertain을 판정하는 RFClassifier 구현; confidence &lt; 0.6 시 uncertain 처리 로직 설계</li>
+          <li><strong>POST /classify 엔드포인트 구현</strong> — RuleFilter → RFClassifier → PredictionResult 전체 추론 파이프라인을 FastAPI로 연결</li>
+          <li><strong>Sim2Real 재학습</strong> — 노이즈 주입 v2 시뮬레이션 데이터 1,200개로 RF 모델 재학습, 실제 드론 궤적 분류 정확도 개선</li>
+          <li><strong>공유 스키마 설계 참여</strong> — A/B/C 파트 간 데이터 계약(schemas.py) 정의에 참여</li>
+        </ul>
+        <div class="r-tech">
+          <span>Python</span><span>FastAPI</span><span>scikit-learn</span><span>Pydantic</span><span>joblib</span>
+        </div>
+      </div>
+
+      <!-- DeClone -->
+      <div class="r-item">
+        <div class="r-item-header">
+          <h3 class="r-item-title">DeClone</h3>
+          <span class="r-item-period">2026 · 해커톤</span>
+        </div>
+        <p class="r-item-sub">구글 플레이 앱 광고 기만 자동 분석 서비스 · 백엔드 공동 개발 · 4인 팀 (기여 30%)</p>
+        <ul class="r-item-desc">
+          <li><strong>개발자 패턴 점수 연동</strong> — 동일 개발사 앱 출시 빈도·카테고리 중복률을 분석하는 developer.py를 점수 파이프라인에 연동; 스코어 가중치(negative_keyword 35%, genre_trust 40% 등) 재설계</li>
+          <li><strong>광고 비교 기능 구현</strong> — 유튜브 URL 썸네일 추출 파싱 로직 구현, Play Store 스크린샷·헤더 이미지를 /api/verify 응답에 포함시켜 광고 vs 실제 화면 비교 기능 완성</li>
+          <li><strong>Pydantic 유효성 오류 버그픽스</strong> — 검색 결과에서 appId가 None인 항목이 라우터 레벨에서 유효성 오류를 유발하던 버그 수정</li>
+        </ul>
+        <div class="r-tech">
+          <span>Python</span><span>FastAPI</span><span>SQLAlchemy</span><span>PostgreSQL</span><span>Railway</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 수상 -->
+    <div class="r-section">
+      <p class="r-section-title">Awards</p>
+      <div class="r-item">
+        <div class="r-item-header">
+          <h3 class="r-item-title">프로젝트 최우수상</h3>
+          <span class="r-item-period">2025</span>
+        </div>
+        <p class="r-item-sub">대학·기업 협력형 SW아카데미사업 TABA 10기 프로젝트 발표회</p>
+        <p style="font-size:0.78rem;color:#666;margin:3px 0 0;">주관: 과학기술정보통신부 · 정보통신기획평가원 · 단국대학교 · 오케스트로(주) · 한국클라우드컴퓨팅연구조합 · 출품작: Postura</p>
+      </div>
+    </div>
+
+    <!-- 학력 + 자격증 -->
+    <div class="r-two-col">
+      <div class="r-section">
+        <p class="r-section-title">Education</p>
+        <div class="r-item">
+          <div class="r-item-header">
+            <h3 class="r-item-title">단국대학교</h3>
+            <span class="r-item-period">2021.03 – 2027.02 (예정)</span>
+          </div>
+          <p class="r-item-sub">컴퓨터공학과</p>
+        </div>
+      </div>
+
+      <div class="r-section">
+        <p class="r-section-title">Certifications</p>
+        <div class="r-item">
+          <div class="r-item-header">
+            <h3 class="r-item-title">SQLD</h3>
+            <span class="r-item-period">한국데이터산업진흥원</span>
+          </div>
+          <p class="r-item-sub">SQL 개발자</p>
+        </div>
+        <div class="r-item">
+          <div class="r-item-header">
+            <h3 class="r-item-title">정보처리기사</h3>
+            <span class="r-item-period">필기 합격 · 실기 준비 중</span>
+          </div>
+          <p class="r-item-sub">한국산업인력공단</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

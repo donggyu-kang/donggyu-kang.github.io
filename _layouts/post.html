@@ -2,44 +2,84 @@
 layout: default
 ---
 
-{% if page.background %}
-<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
-{% else %}
-<header class="masthead">
-{% endif %}
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-heading">
-          <h1>{{ page.title }}</h1>
-          {% if page.subtitle %}
-          <h2 class="subheading">{{ page.subtitle }}</h2>
-          {% endif %}
-          <span class="meta">Posted by
-            <a href="#">{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</a>
-            on {{ page.date | date: '%Y년 %m월 %d일' }}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+<style>
+  .post-title-header {
+    padding: 110px 0 0;
+    max-width: 1480px;
+    margin: 0 auto;
+    padding-left: calc(240px + 44px);
+    padding-bottom: 0;
+  }
+  .post-title-header .pt-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #10B981;
+    font-family: "JetBrains Mono", monospace !important;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .post-title-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #E6EDF3;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    margin: 0 0 10px;
+  }
+  .post-title-header .pt-sub {
+    font-size: 1rem;
+    color: #8B949E;
+    margin: 0 0 12px;
+    font-weight: 400;
+  }
+  .post-title-header .pt-meta {
+    font-size: 0.78rem;
+    color: #6E7681;
+    font-family: "JetBrains Mono", monospace !important;
+  }
+  .post-title-header .pt-meta a { color: #10B981; text-decoration: none; }
+  .post-title-divider {
+    border: none;
+    border-top: 1px solid #30363D;
+    margin: 20px 0 0;
+    max-width: 1480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (max-width: 991px) {
+    .post-title-header { padding: 90px 20px 0; }
+  }
+</style>
+
+<div class="post-title-header">
+  <p class="pt-label">// {{ page.categories | first }}</p>
+  <h1>{{ page.title }}</h1>
+  {% if page.subtitle %}<p class="pt-sub">{{ page.subtitle }}</p>{% endif %}
+  <span class="pt-meta">
+    <a href="#">{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</a>
+    &nbsp;·&nbsp; {{ page.date | date: '%Y.%m.%d' }}
+  </span>
+</div>
+<hr class="post-title-divider">
 
 <style>
   .post-inner-flex {
     display: flex;
     width: 100%;
-    max-width: 1600px;
+    max-width: 1480px;
     margin: 0 auto;
     padding-left: 20px;
   }
 
   /* ── 사이드바 ── */
   .sidebar-column {
-    flex: 0 0 260px;
+    flex: 0 0 240px;
     padding-top: 32px;
-    padding-right: 28px;
+    padding-right: 24px;
   }
   .sidebar-wrapper {
     position: sticky;
@@ -47,108 +87,97 @@ layout: default
     z-index: 10;
   }
   .sidebar-nav {
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 14px rgba(80, 55, 20, 0.08);
+    border: 1px solid #30363D;
+    background: #161B22;
   }
   .sidebar-nav .sidebar-header {
-    background: #4A3520;
-    color: #FDF6EC;
-    font-size: 0.72rem;
+    background: #1C2128;
+    color: #10B981;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
-    padding: 13px 16px;
+    letter-spacing: 0.14em;
+    padding: 12px 16px;
     text-transform: uppercase;
+    border-bottom: 1px solid #30363D;
+    font-family: "JetBrains Mono", monospace !important;
   }
-  /* 모든 항목 공통: 아이콘 왼쪽, 텍스트 가운데 */
   .sidebar-nav a {
     display: flex;
     align-items: center;
     padding: 10px 16px;
-    font-size: 0.875rem;
-    color: #2A2118;
-    background: #FBF8F2;
-    border-bottom: 1px solid #EAE2D4;
+    font-size: 0.83rem;
+    color: #8B949E;
+    background: #161B22;
+    border-bottom: 1px solid #21262D;
     text-decoration: none !important;
     transition: background 0.18s, color 0.18s;
+    gap: 10px;
   }
   .sidebar-nav a:last-child { border-bottom: none; }
-  .sidebar-nav a:hover { background: #F0E8DA; color: #1A120A; }
+  .sidebar-nav a:hover { background: #1C2128; color: #E6EDF3; }
   .sidebar-nav a.active {
-    background: #8B6F47 !important;
-    color: #fff !important;
+    background: rgba(16,185,129,0.12) !important;
+    color: #10B981 !important;
     font-weight: 600;
+    border-left: 2px solid #10B981;
   }
-
-  /* 아이콘: 왼쪽 고정 크기 */
   .sidebar-nav a i {
     flex-shrink: 0;
-    width: 16px;
+    width: 14px;
     text-align: center;
-    font-size: 0.8rem;
-    color: #7A6A55;
+    font-size: 0.78rem;
+    color: #6E7681;
   }
-  .sidebar-nav a.active i { color: rgba(255,255,255,0.8); }
-
-  /* 텍스트: 남은 공간에서 가운데 정렬 */
-  .sidebar-nav a .item-text {
-    flex: 1;
-    text-align: center;
-  }
+  .sidebar-nav a.active i { color: #10B981; }
+  .sidebar-nav a .item-text { flex: 1; }
 
   /* 하위 항목 */
   .sidebar-nav a.sub-item {
-    font-size: 0.83rem;
-    background: #F5EFE5;
-    color: #5A4A38;
+    font-size: 0.8rem;
+    padding-left: 26px;
+    background: #0D1117;
+    color: #6E7681;
   }
-  .sidebar-nav a.sub-item:hover { background: #EBE2D4; color: #2A2118; }
-  .sidebar-nav a.sub-item.active { background: #8B6F47 !important; color: #fff !important; }
-  .sidebar-nav a.sub-item.active i { color: rgba(255,255,255,0.8); }
+  .sidebar-nav a.sub-item:hover { background: #161B22; color: #8B949E; }
+  .sidebar-nav a.sub-item.active {
+    background: rgba(16,185,129,0.08) !important;
+    color: #10B981 !important;
+  }
 
-  /* CS 토글 화살표 */
   .cs-toggle { cursor: pointer; }
   .cs-arrow {
     flex-shrink: 0;
-    font-size: 0.6rem;
-    color: #A09080;
+    font-size: 0.58rem;
+    color: #6E7681;
     transition: transform 0.25s ease;
   }
   .cs-arrow.rotate { transform: rotate(90deg); }
-  .cs-active .cs-arrow { color: rgba(255,255,255,0.6); }
   #post-cs-sub { display: none; }
 
   /* ── 본문 ── */
   .content-column {
     flex: 1;
     padding: 36px 52px;
-    border-left: 1px solid #DDD5C4;
+    border-left: 1px solid #30363D;
     min-width: 0;
   }
-  .post-content h1, .post-content h2, .post-content h3,
-  .post-content h4, .post-content h5 {
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #1A120A;
-    margin-top: 2.6rem;
-    margin-bottom: 1rem;
+  .post-content h2 {
+    font-size: 1.3rem;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #30363D;
   }
-  .post-content h2 { font-size: 1.35rem; }
   .post-content h3 { font-size: 1.1rem; }
 
-  .post-content p {
-    line-height: 1.95;
-    margin: 0 0 1.2rem;
-    color: #2A2118;
-  }
+  .post-content p { margin: 0 0 1.2rem; }
 
   .post-content hr {
     border: none;
-    border-top: 1px solid #E0D8CC;
+    border-top: 1px solid #30363D;
     margin: 2.4rem 0;
   }
 
-  /* 리스트 */
   .post-content ul, .post-content ol {
     padding-left: 1.5rem;
     margin: 0 0 1.2rem;
@@ -156,26 +185,22 @@ layout: default
   .post-content li {
     line-height: 1.85;
     margin-bottom: 0.3rem;
-    color: #2A2118;
+    color: #8B949E;
   }
 
-  /* 인용구 */
   .post-content blockquote {
-    border-left: 3px solid #8B6F47;
-    margin: 1.6rem 0;
-    padding: 14px 20px;
-    background: #FBF5EC;
-    border-radius: 0 8px 8px 0;
-    color: #3A2E22;
-    font-style: normal;
+    border-left: 3px solid #10B981 !important;
+    margin: 1.6rem 0 !important;
+    padding: 14px 20px !important;
+    background: rgba(16,185,129,0.06) !important;
+    border-radius: 0 8px 8px 0 !important;
+    color: #8B949E !important;
+    font-style: normal !important;
   }
-  .post-content blockquote p {
-    margin: 0 0 0.4rem;
-    line-height: 1.85;
-  }
-  .post-content blockquote p:last-child { margin: 0; }
+  .post-content blockquote p { margin: 0 0 0.4rem !important; color: #8B949E !important; }
+  .post-content blockquote p:last-child { margin: 0 !important; }
+  .post-content blockquote strong { color: #E6EDF3 !important; }
 
-  /* 테이블 */
   .post-content table {
     width: 100%;
     border-collapse: collapse;
@@ -183,41 +208,37 @@ layout: default
     font-size: 0.92rem;
   }
   .post-content th {
-    background: #F0E8DA;
-    color: #3A2E22;
+    background: #1C2128;
+    color: #E6EDF3;
     font-weight: 600;
     padding: 11px 16px;
     text-align: left;
-    border-bottom: 2px solid #D4C9B5;
+    border-bottom: 2px solid #30363D;
   }
   .post-content td {
     padding: 10px 16px;
-    border-bottom: 1px solid #EAE2D4;
-    color: #2A2118;
+    border-bottom: 1px solid #21262D;
+    color: #8B949E;
     vertical-align: top;
   }
   .post-content tr:last-child td { border-bottom: none; }
-  .post-content tr:nth-child(even) td { background: #FAF7F2; }
-
-  /* 강조 */
-  .post-content strong { color: #1A120A; font-weight: 700; }
-
-  /* 본문 첫 문단 간격 */
-  .post-content > p:first-child { margin-top: 0; }
+  .post-content tr:nth-child(even) td { background: #161B22; }
 
   /* ── 이전/다음 버튼 ── */
   .post-nav-btns { margin-top: 32px; }
   .post-nav-btns .btn-primary {
-    background-color: #8B6F47 !important;
-    border-color: #8B6F47 !important;
+    background-color: transparent !important;
+    border: 1px solid #10B981 !important;
+    color: #10B981 !important;
     border-radius: 8px;
     font-size: 0.85rem;
     font-weight: 600;
     padding: 8px 18px;
+    transition: background 0.2s, color 0.2s;
   }
   .post-nav-btns .btn-primary:hover {
-    background-color: #7A5F3A !important;
-    border-color: #7A5F3A !important;
+    background-color: #10B981 !important;
+    color: #0D1117 !important;
   }
 
   @media (max-width: 991px) {
@@ -232,9 +253,11 @@ layout: default
   <aside class="sidebar-column">
     <div class="sidebar-wrapper">
       <nav class="sidebar-nav" id="post-sidebar-list">
-        <div class="sidebar-header">Categories</div>
+        <div class="sidebar-header">// Categories</div>
 
-        <a href="javascript:void(0)" class="cs-toggle" id="post-cs-toggle" data-category="Computer-Science" onclick="togglePostCS()"><i class="fas fa-microchip"></i><span class="item-text">Computer Science</span><span class="cs-arrow" id="post-cs-arrow">▶</span></a>
+        <a href="javascript:void(0)" class="cs-toggle" id="post-cs-toggle" data-category="Computer-Science" onclick="togglePostCS()">
+          <i class="fas fa-microchip"></i><span class="item-text">Computer Science</span><span class="cs-arrow" id="post-cs-arrow">▶</span>
+        </a>
         <div id="post-cs-sub">
           <a href="/posts/?category=Data-Structure" class="sub-item" data-category="Data-Structure"><i class="fas fa-sitemap"></i><span class="item-text">Data Structure</span></a>
           <a href="/posts/?category=Operating-System" class="sub-item" data-category="Operating-System"><i class="fas fa-desktop"></i><span class="item-text">Operating System</span></a>
@@ -288,13 +311,11 @@ layout: default
     const hasCSSubCat = postCategories.some(c => csSubCats.includes(c));
     const hasCS = postCategories.includes('Computer-Science') || hasCSSubCat;
 
-    // CS 하위 포스트면 토글 자동 펼침
     if (hasCS) {
       document.getElementById('post-cs-sub').style.display = 'block';
       document.getElementById('post-cs-arrow').classList.add('rotate');
     }
 
-    // active 표시
     document.querySelectorAll('#post-sidebar-list a[data-category]').forEach(item => {
       const cat = item.getAttribute('data-category');
       if (hasCSSubCat) {

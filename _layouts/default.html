@@ -4,62 +4,89 @@
 <head>
   {% include head.html %}
 
-  <!-- Pretendard: 트렌디한 한국어 산세리프 웹폰트 -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 
   <style>
-    /* ── 전체 폰트: Pretendard ── */
+    :root {
+      --bg:         #0D1117;
+      --surface:    #161B22;
+      --surface-2:  #1C2128;
+      --border:     #30363D;
+      --text:       #E6EDF3;
+      --text-sub:   #8B949E;
+      --text-muted: #6E7681;
+      --accent:     #10B981;
+      --accent-dim: #0D9A6A;
+      --accent-glow:rgba(16,185,129,0.12);
+    }
+
+    /* ── 폰트 ── */
     body, h1, h2, h3, h4, h5, h6, p, a, span, li, td, th, blockquote,
     .navbar-brand, .nav-link, .list-group-item, button {
       font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif !important;
     }
 
-    /* ── 배경 & 기본 텍스트 ── */
-    html { background-color: #F2EDE4 !important; }
+    /* ── 배경 & 기본 ── */
+    html { background-color: var(--bg) !important; }
     body {
       font-size: 16px;
       line-height: 1.85;
-      color: #1E1A16;
-      background-color: #F2EDE4 !important;
+      color: var(--text);
+      background-color: var(--bg) !important;
       word-break: keep-all;
       -webkit-font-smoothing: antialiased;
       letter-spacing: -0.01em;
     }
 
-    /* ── 네비바: 항상 상단 고정, 슬라이드 없음 ── */
+    /* ── 네비바 ── */
     #mainNav {
       position: fixed !important;
       top: 0 !important;
-      background-color: rgba(242, 237, 228, 0.97) !important;
-      border-bottom: 1px solid #DDD5C4 !important;
-      backdrop-filter: blur(8px);
+      background-color: rgba(13,17,23,0.92) !important;
+      border-bottom: 1px solid var(--border) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
-    #mainNav.is-fixed {
+    #mainNav.is-fixed, #mainNav.is-visible {
       top: 0 !important;
       transform: none !important;
-      background-color: rgba(242, 237, 228, 0.97) !important;
-      border-bottom: 1px solid #DDD5C4 !important;
+      background-color: rgba(13,17,23,0.95) !important;
+      border-bottom: 1px solid var(--border) !important;
+      box-shadow: 0 1px 20px rgba(0,0,0,0.4) !important;
     }
-    #mainNav.is-visible {
-      transform: none !important;
-      box-shadow: 0 1px 12px rgba(0,0,0,0.07) !important;
+    #mainNav .navbar-brand {
+      color: var(--text) !important;
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
-    #mainNav .navbar-brand,
-    #mainNav .nav-link,
-    #mainNav.is-fixed .navbar-brand,
-    #mainNav.is-fixed .nav-link {
-      color: #1E1A16 !important;
+    #mainNav .navbar-brand:hover { color: var(--accent) !important; }
+    #mainNav .nav-link {
+      color: var(--text-sub) !important;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
     }
-    #mainNav .navbar-brand:hover,
-    #mainNav .nav-link:hover {
-      color: #8B6F47 !important;
+    #mainNav .nav-link:hover { color: var(--accent) !important; }
+    #mainNav .nav-link.resume-btn {
+      color: var(--accent) !important;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      padding: 4px 14px !important;
+      margin-left: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    #mainNav .nav-link.resume-btn:hover {
+      background: var(--accent) !important;
+      color: #0D1117 !important;
     }
 
-    /* ── 마스트헤드 ── */
+    /* ── 마스트헤드 (포스트/일반 페이지용) ── */
     header.masthead .overlay {
-      background-color: #1A0F04 !important;
-      opacity: 0.62 !important;
+      background-color: #000 !important;
+      opacity: 0.75 !important;
     }
     .masthead .post-heading h1,
     .masthead .post-heading .subheading,
@@ -68,46 +95,101 @@
     .masthead .page-heading .subheading,
     .masthead .site-heading h1,
     .masthead .site-heading .subheading {
-      color: #FDF6EC !important;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.55);
-      letter-spacing: 0.04em;
+      color: var(--text) !important;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.7);
     }
+    .masthead .post-heading .meta a { color: var(--accent) !important; }
 
-    /* ── 본문 제목 ── */
+    /* ── 본문 공통 ── */
     .post-content h1, .post-content h2, .post-content h3,
     .post-content h4, .content-column h1, .content-column h2 {
-      color: #1A120A;
-      font-weight: 600;
-      letter-spacing: 0.02em;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: -0.02em;
       margin-top: 2.4rem;
       margin-bottom: 0.9rem;
     }
     .post-content, article, .content-column {
-      font-size: 16.5px;
+      font-size: 16px;
       letter-spacing: 0.01em;
+      color: var(--text-sub);
     }
-
-    /* ── 포스트 목록 ── */
-    .post-preview > a > .post-title { letter-spacing: 0.02em; }
-    hr.small { border-color: #C9B8A4; }
+    .post-content p { color: var(--text-sub); line-height: 1.9; }
+    .post-content strong { color: var(--text); font-weight: 700; }
+    .post-content a { color: var(--accent); }
+    .post-content a:hover { color: var(--accent-dim); }
 
     /* ── 코드 블록 ── */
     code, pre, .highlight {
       font-family: "JetBrains Mono", "Fira Code", Consolas, monospace !important;
       font-size: 13px !important;
     }
+    code {
+      background: var(--surface-2) !important;
+      color: #79C0FF !important;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+    pre {
+      background: var(--surface-2) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 10px !important;
+      padding: 20px !important;
+    }
+    pre code {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      color: #A5D6FF !important;
+    }
+    .highlight { background: var(--surface-2) !important; border-radius: 10px !important; }
 
     /* ── 텍스트 선택 ── */
-    ::selection     { background: #8B6F47; color: #fff; }
-    ::-moz-selection { background: #8B6F47; color: #fff; }
+    ::selection      { background: var(--accent); color: #0D1117; }
+    ::-moz-selection { background: var(--accent); color: #0D1117; }
+
+    /* ── 스크롤바 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* ── 구분선 ── */
+    hr, hr.small { border-color: var(--border) !important; }
 
     /* ── 푸터 ── */
     footer {
-      background-color: #E8E1D5 !important;
-      border-top: 1px solid #D4C9B5 !important;
+      background-color: var(--surface) !important;
+      border-top: 1px solid var(--border) !important;
     }
+    footer p, footer .copyright { color: var(--text-muted) !important; }
+    footer .fa-stack .fa-circle { color: var(--surface-2) !important; }
+    footer .fa-stack:hover .fa-circle { color: var(--accent) !important; }
+    footer .fa-stack .fa-inverse { color: var(--text-sub) !important; }
+    footer .fa-stack:hover .fa-inverse { color: #0D1117 !important; }
 
-    /* ── 포스트 페이지 배경 (흰 박스 없애기) ── */
+    /* ── blockquote 전역 ── */
+    blockquote {
+      border-left: 3px solid #10B981 !important;
+      background: rgba(16,185,129,0.06) !important;
+      border-radius: 0 8px 8px 0 !important;
+      padding: 14px 20px !important;
+      margin: 1.6rem 0 !important;
+      color: #8B949E !important;
+      font-style: normal !important;
+    }
+    blockquote p { color: #8B949E !important; margin-bottom: 0 !important; }
+    blockquote strong { color: #E6EDF3 !important; }
+    blockquote footer, blockquote cite { color: #6E7681 !important; }
+
+    /* ── 포스트 목록 ── */
+    .post-preview > a > .post-title { color: var(--text) !important; letter-spacing: 0.01em; }
+    .post-preview > a > .post-subtitle { color: var(--text-sub) !important; }
+    .post-preview .post-meta { color: var(--text-muted) !important; }
+    .post-preview > a:hover > .post-title { color: var(--accent) !important; }
+
+    /* ── posts 페이지 배경 ── */
     .posts-full-width { background: transparent !important; }
   </style>
 </head>
