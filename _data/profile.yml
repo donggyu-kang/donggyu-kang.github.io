@@ -132,7 +132,7 @@ projects:
     headline: Spring Boot 백엔드
     period: 2026 (진행 중)
     status: wip
-    subtitle: SkyDetect AI 분석 서버와 연동할 Spring Boot 백엔드 · 단독 개발
+    subtitle: SkyDetect AI 분석 서버와 연동할 Spring Boot 백엔드 · 2인 개발
     intro: SkyDetect의 AI 분석 서버(FastAPI)와 연동할 Spring Boot 백엔드를 새로 만들고 있습니다.
     oneline: SkyDetect AI 분석 서버(FastAPI)와 연동할 Spring 백엔드
     summary: SkyDetect의 AI 분석 서버(FastAPI)와 연동할 백엔드를 만들고 있습니다.
