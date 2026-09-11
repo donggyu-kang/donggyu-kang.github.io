@@ -78,7 +78,7 @@ skills:
       - [Notion, "000000", notion, white]
 
 projects:
-  - name: Postura Backend
+  - name: Postura
     url: https://github.com/TABA-postura/Backend
     headline: 실시간 자세 교정 헬스케어 서비스
     period: 2025
