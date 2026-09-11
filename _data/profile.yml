@@ -79,7 +79,7 @@ skills:
       - [Notion, "000000", notion, white]
 
 projects:
-  - name: Postura
+  - name: Postura Backend
     url: https://github.com/TABA-postura/Backend
     headline: 실시간 자세 교정 헬스케어 서비스
     period: 2025
@@ -105,7 +105,7 @@ projects:
     tech: [Java 17, Spring Boot 3, Spring Security, OAuth2, JWT, JPA, MySQL, Docker, AWS EC2/ALB, GitHub Actions]
     profile_tech: [Spring Boot, Spring Security, OAuth2, JWT, MySQL, AWS, Docker, GitHub Actions]
 
-  - name: SkyDetect
+  - name: skydetect-ai
     url: https://github.com/CAPSTONE-skydetect/skydetect-ai
     headline: 드론 · 조류 실시간 AI 분류 시스템
     period: 2026
@@ -128,7 +128,7 @@ projects:
     tech: [Python, FastAPI, scikit-learn, Pydantic, joblib, pytest]
     profile_tech: [Python, FastAPI, scikit-learn, pytest]
 
-  - name: SkyDetect Backend
+  - name: skydetect-backend
     url: https://github.com/CAPSTONE-skydetect/skydetect-backend
     headline: Spring Boot 백엔드
     period: 2026 (진행 중)
@@ -145,7 +145,7 @@ projects:
     tech: [Java 21, Spring Boot 4, Spring Security, Spring Data JPA, MySQL]
     profile_tech: [Spring Boot, Java 21, Spring Security, Spring Data JPA, MySQL]
 
-  - name: Gavel
+  - name: gavel
     url: https://github.com/donggyu-kang/gavel
     headline: 실시간 경매 플랫폼
     period: 2026 (진행 중)
