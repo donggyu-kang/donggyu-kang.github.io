@@ -36,7 +36,7 @@ def render(d):
     w("")
     w('<div align="center">')
     w("")
-    w(f'[![Resume](https://img.shields.io/badge/%EC%9D%B4%EB%A0%A5%EC%84%9C-10B981?style=for-the-badge&logo=readdotcv&logoColor=white)]({blog}/resume)')
+    w(f'[![Resume](https://img.shields.io/badge/Resume-10B981?style=for-the-badge&logo=readdotcv&logoColor=white)]({blog}/resume)')
     w(f'[![Blog](https://img.shields.io/badge/Tech%20Blog-0f172a?style=for-the-badge&logo=github&logoColor=white)]({blog})')
     w(f'[![Email](https://img.shields.io/badge/{urllib.parse.quote(c["email"])}-0f172a?style=for-the-badge&logo=gmail&logoColor=white)](mailto:{c["email"]})')
     w("")
