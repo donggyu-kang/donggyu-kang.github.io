@@ -1,0 +1,53 @@
+name: Sync GitHub Profile README
+
+# _data/profile.yml 이 바뀌면 프로필 레포(donggyu-kang/donggyu-kang)의
+# README.md 를 다시 생성해서 푸시한다.
+#
+# 사전 준비: PROFILE_REPO_TOKEN 시크릿 등록 (repo 권한 PAT)
+#   Settings → Secrets and variables → Actions → New repository secret
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "_data/profile.yml"
+      - "bin/build-profile-readme.py"
+      - ".github/workflows/sync-profile.yml"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 블로그 레포 체크아웃 (데이터 원본)
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 의존성 설치
+        run: pip install pyyaml
+
+      - name: 프로필 레포 체크아웃
+        uses: actions/checkout@v4
+        with:
+          repository: donggyu-kang/donggyu-kang
+          token: ${{ secrets.PROFILE_REPO_TOKEN }}
+          path: profile-repo
+
+      - name: README 생성
+        run: python bin/build-profile-readme.py profile-repo/README.md
+
+      - name: 변경 사항 커밋 & 푸시
+        working-directory: profile-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- README.md; then
+            echo "변경 없음 — 건너뜀"
+            exit 0
+          fi
+          git add README.md
+          git commit -m "chore: 블로그 profile.yml 변경에 따라 README 갱신"
+          git push
