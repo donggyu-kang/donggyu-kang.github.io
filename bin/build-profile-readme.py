@@ -106,13 +106,6 @@ def render(d):
     for ct in d["certifications"]:
         w(f'| 자격증 | **{ct["name"]}** | {ct["org"]} | {ct["period"]} |')
     w("")
-    w("<br>")
-    w("")
-    w('<div align="center">')
-    w(f'  <sub>더 자세한 내용은 <a href="{blog}/resume">이력서</a>에 정리해 두었습니다. '
-      f'궁금한 점은 <a href="mailto:{c["email"]}">메일</a> 주세요.</sub>')
-    w("</div>")
-    w("")
     w("<!-- 이 파일은 donggyu-kang.github.io/_data/profile.yml 에서 자동 생성됩니다. 직접 수정하지 마세요. -->")
 
     return "\n".join(out) + "\n"
