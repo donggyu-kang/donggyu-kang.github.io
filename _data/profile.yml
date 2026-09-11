@@ -144,7 +144,7 @@ projects:
     tech: [Java 21, Spring Boot 4, Spring Security, Spring Data JPA, MySQL]
     profile_tech: [Spring Boot, Java 21, Spring Security, Spring Data JPA, MySQL]
 
-  - name: gavel
+  - name: Gavel
     url: https://github.com/donggyu-kang/gavel
     headline: 실시간 경매 플랫폼
     period: 2026 (진행 중)
