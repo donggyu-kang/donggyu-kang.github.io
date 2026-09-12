@@ -29,7 +29,7 @@ about:
     직접 설계·구현한 경험을 바탕으로, 유지보수하기 좋은 서버를 만드는 개발자를 목표로 하고 있습니다.
   # 프로필 README 상단 문단
   profile_lead: "Spring Boot로 서비스의 **도메인과 API를 설계하고, 인증·데이터·배포까지 직접 책임지는** 백엔드 개발자입니다."
-  profile_sub: "단국대학교 재학 중이며, 여러 팀 프로젝트에서 인증·보안과 배포 자동화를 맡아 왔습니다."
+  profile_sub: "단국대학교 재학 중이며, 여러 팀 프로젝트에서 Spring 백엔드를 맡아 설계부터 배포까지 경험해 왔습니다."
 
 # 프로필 README의 About Me 불릿 (이력서에는 사용하지 않음)
 highlights:
@@ -69,9 +69,8 @@ skills:
       - [GitHub Actions, "2088FF", githubactions, white]
       - [Linux, "FCC624", linux, black]
   - label: Test / Tools
-    value: JUnit, pytest, IntelliJ IDEA, Postman, Notion
+    value: pytest, IntelliJ IDEA, Postman, Notion
     badges:
-      - [JUnit5, "25A162", junit5, white]
       - [pytest, "0A9EDC", pytest, white]
       - [IntelliJ IDEA, "000000", intellijidea, white]
       - [Git, "F05032", git, white]
