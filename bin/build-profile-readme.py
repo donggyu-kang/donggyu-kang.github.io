@@ -90,9 +90,6 @@ def render(d):
         tech = " ".join(f"`{t}`" for t in p["profile_tech"])
         w(f'| {cell} | {p["oneline"]} | {tech} |')
     w("")
-    w(f'<sub>각 프로젝트에서 무엇을 어떻게 했는지는 '
-      f'<a href="{blog}/resume">이력서</a>에 자세히 정리해 두었습니다.</sub>')
-    w("")
     w("<br>")
     w("")
 
@@ -102,9 +99,9 @@ def render(d):
     w("| 구분 | 내용 | 기관 | 일자 |")
     w("|:--|:--|:--|:--|")
     for a in d["awards"]:
-        w(f'| 수상 | TABA 10기 프로젝트 **{a["title"].replace("프로젝트 ", "")}** | {a["short_org"]} | {a["period"]} |')
+        w(f'| 수상 | TABA 10기 프로젝트 {a["title"].replace("프로젝트 ", "")} | {a["short_org"]} | {a["period"]} |')
     for ct in d["certifications"]:
-        w(f'| 자격증 | **{ct["name"]}** | {ct["org"]} | {ct["period"]} |')
+        w(f'| 자격증 | {ct["name"]} | {ct["org"]} | {ct["period"]} |')
     w("")
     w("<!-- 이 파일은 donggyu-kang.github.io/_data/profile.yml 에서 자동 생성됩니다. 직접 수정하지 마세요. -->")
 
