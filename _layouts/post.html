@@ -146,16 +146,6 @@ layout: default
     color: #10B981 !important;
   }
 
-  .cs-toggle { cursor: pointer; }
-  .cs-arrow {
-    flex-shrink: 0;
-    font-size: 0.58rem;
-    color: #6E7681;
-    transition: transform 0.25s ease;
-  }
-  .cs-arrow.rotate { transform: rotate(90deg); }
-  #post-cs-sub { display: none; }
-
   /* ── 본문 ── */
   .content-column {
     flex: 1;
@@ -255,20 +245,21 @@ layout: default
       <nav class="sidebar-nav" id="post-sidebar-list">
         <div class="sidebar-header">// Categories</div>
 
-        <a href="javascript:void(0)" class="cs-toggle" id="post-cs-toggle" data-category="Computer-Science" onclick="togglePostCS()">
-          <i class="fas fa-microchip"></i><span class="item-text">Computer Science</span><span class="cs-arrow" id="post-cs-arrow">▶</span>
-        </a>
-        <div id="post-cs-sub">
-          <a href="/posts/?category=Data-Structure" class="sub-item" data-category="Data-Structure"><i class="fas fa-sitemap"></i><span class="item-text">Data Structure</span></a>
-          <a href="/posts/?category=Operating-System" class="sub-item" data-category="Operating-System"><i class="fas fa-desktop"></i><span class="item-text">Operating System</span></a>
-          <a href="/posts/?category=Database" class="sub-item" data-category="Database"><i class="fas fa-database"></i><span class="item-text">Database</span></a>
-          <a href="/posts/?category=Network" class="sub-item" data-category="Network"><i class="fas fa-network-wired"></i><span class="item-text">Network</span></a>
-        </div>
+        <a href="/posts/?category=Computer-Science" data-category="Computer-Science"><i class="fas fa-microchip"></i><span class="item-text">Computer Science</span></a>
         <a href="/posts/?category=Dev-&-Frameworks" data-category="Dev-&-Frameworks"><i class="fas fa-code"></i><span class="item-text">Dev &amp; Frameworks</span></a>
         <a href="/posts/?category=Infra-&-DevOps" data-category="Infra-&-DevOps"><i class="fas fa-server"></i><span class="item-text">Infra &amp; DevOps</span></a>
         <a href="/posts/?category=Certifications" data-category="Certifications"><i class="fas fa-award"></i><span class="item-text">Certifications</span></a>
         <a href="/posts/?category=Retrospective" data-category="Retrospective"><i class="fas fa-book-open"></i><span class="item-text">Retrospective</span></a>
       </nav>
+
+      {% if page.tags.size > 0 %}
+      <nav class="sidebar-nav" style="margin-top: 16px;">
+        <div class="sidebar-header">// Tags</div>
+        {% for tag in page.tags %}
+        <a href="/posts/?tag={{ tag | replace: ' ', '-' }}" class="sub-item"><i class="fas fa-hashtag"></i><span class="item-text">{{ tag }}</span></a>
+        {% endfor %}
+      </nav>
+      {% endif %}
     </div>
   </aside>
 
@@ -294,35 +285,14 @@ layout: default
 </div>
 
 <script>
-  function togglePostCS() {
-    const sub = document.getElementById('post-cs-sub');
-    const arrow = document.getElementById('post-cs-arrow');
-    const isOpen = sub.style.display === 'block';
-    sub.style.display = isOpen ? 'none' : 'block';
-    arrow.classList.toggle('rotate', !isOpen);
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
     const postCategories = [
       {% for cat in page.categories %}"{{ cat | replace: ' ', '-' }}"{% unless forloop.last %},{% endunless %}{% endfor %}
     ];
 
-    const csSubCats = ['Data-Structure', 'Operating-System', 'Database', 'Network'];
-    const hasCSSubCat = postCategories.some(c => csSubCats.includes(c));
-    const hasCS = postCategories.includes('Computer-Science') || hasCSSubCat;
-
-    if (hasCS) {
-      document.getElementById('post-cs-sub').style.display = 'block';
-      document.getElementById('post-cs-arrow').classList.add('rotate');
-    }
-
     document.querySelectorAll('#post-sidebar-list a[data-category]').forEach(item => {
       const cat = item.getAttribute('data-category');
-      if (hasCSSubCat) {
-        if (csSubCats.includes(cat) && postCategories.includes(cat)) item.classList.add('active');
-      } else {
-        if (postCategories.includes(cat)) item.classList.add('active');
-      }
+      if (postCategories.includes(cat)) item.classList.add('active');
     });
   });
 </script>
