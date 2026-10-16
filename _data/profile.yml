@@ -45,7 +45,7 @@ highlights:
 # 이력서 Skills 표 / 프로필 Tech Stack 표 공용
 skills:
   - label: Language
-    value: Java 17, Python
+    value: Java 17 · 21, Python
     badges:
       - [Java, "007396", openjdk, white]
       - [Python, "3776AB", python, white]
@@ -84,84 +84,82 @@ projects:
     period: 2025
     status: done
     award: TABA 10기 최우수상 — 과학기술정보통신부 · 정보통신기획평가원 · 단국대학교
-    subtitle: AI 기반 자세 교정 헬스케어 서비스 · 백엔드 인증/인가 전담 · CI/CD 공동 구축 · 5인 팀 (프론트 2, AI 1, 백엔드 2)
+    subtitle: 웹캠 기반 자세 교정 헬스케어 서비스 · 5인 팀 (프론트 2, AI 1, 백엔드 2) · 인증/인가와 보안 설정 담당
     intro: 웹캠으로 사용자의 자세를 실시간 분석하고 교정 피드백을 제공하는 헬스케어 서비스입니다.
-    oneline: 웹캠 기반 실시간 자세 교정 헬스케어 서비스 · 백엔드 인증/인가 전담
-    summary: 백엔드 인증/인가 전담. OAuth2 소셜 로그인과 JWT 인증 체계를 설계하고, Refresh Token을 DB에 저장·로테이션해 탈취된 토큰의 재사용을 차단했습니다.
+    oneline: 웹캠 기반 실시간 자세 교정 헬스케어 서비스 · 백엔드 인증/인가 담당
+    summary: 백엔드 인증/인가 담당. OAuth2 소셜 로그인과 JWT 인증을 구현하고, Refresh Token을 DB에 저장·교체해 이전 토큰을 다시 쓸 수 없게 했습니다.
     details:
-      - title: 소셜 로그인 전체 구현
-        body: Google(OIDC)·Kakao(OAuth2)를 Spring Security OAuth2로 구현; provider 불일치·중복 이메일 엣지 케이스 처리 및 사용자 자동 가입/업데이트 로직 작성
-      - title: JWT 인증 시스템 설계 및 구현
-        body: Access/Refresh 이중 토큰 방식, JwtTokenProvider·JwtAuthenticationFilter 작성, 로컬·소셜 공통 토큰 발급 인터페이스 통일
-      - title: Refresh Token 검증 체계 설계
-        body: 사용자당 1건으로 DB에 저장해 서버가 강제 무효화할 수 있게 하고, 재발급 시 서명 검증 → 저장된 토큰 대조 → 클레임·DB의 userId 교차 검증을 거친 뒤 토큰을 로테이션해 탈취된 토큰의 재사용을 차단
-      - title: Spring Security 보안 설정 전담
-        body: Stateless 세션, CORS 최소화, 경로별 인가 정책, OAuth2 성공·실패 핸들러 작성
-      - title: CI/CD 파이프라인 공동 구축
-        body: GitHub Actions로 Docker 이미지 빌드·푸시 및 AWS EC2 자동 배포를 팀원과 함께 구성; AWS ALB HealthCheck 엔드포인트 연동
-      - title: 콘텐츠 검색 API
-        body: 카테고리·키워드·신체 관련 부위 복합 조건 JPQL 검색 쿼리 작성 및 REST API 노출
+      - title: 소셜 로그인
+        body: Google(OIDC)과 Kakao(OAuth2) 로그인을 Spring Security OAuth2 Client로 구현. 첫 로그인 때 자동 가입, 이후 로그인 때 회원 정보 갱신
+      - title: JWT 인증
+        body: Access/Refresh 토큰 발급(JwtTokenProvider)과 요청 검증 필터(JwtAuthenticationFilter) 작성. 일반 로그인과 소셜 로그인이 같은 발급 코드를 쓰도록 통일
+      - title: Refresh Token 재발급
+        body: 사용자당 1건만 DB에 저장. 재발급 요청이 오면 서명 확인, 저장된 토큰과 비교, 토큰 속 userId와 DB의 userId 비교를 거친 뒤 새 토큰으로 교체해서, 이전 토큰은 다시 쓸 수 없게 함
+      - title: Spring Security 설정
+        body: Stateless 세션, CORS 허용 출처 제한, 경로별 접근 권한, OAuth2 로그인 성공·실패 핸들러 작성
+      - title: 배포
+        body: GitHub Actions로 Docker 이미지를 빌드해 EC2에 자동 배포하는 파이프라인을 팀원과 함께 구성하고, ALB 헬스체크용 엔드포인트 추가
+    troubles:
+      - title: Google 로그인만 회원 저장이 안 됨
+        body: 회원 저장 로직을 CustomOAuth2UserService에 넣었는데, Google은 OIDC라서 Spring Security가 이 서비스 대신 OidcUserService를 호출하고 있었음. 그래서 가입 처리가 건너뛰어졌고, 성공 핸들러의 형변환에서 ClassCastException이 발생. OIDC용 CustomOidcUserService를 따로 만들어 등록하고, 두 경로 모두 getName()이 DB의 회원 PK를 돌려주도록 맞춤
+      - title: 같은 이메일로 다른 소셜 로그인 시 오류
+        body: Kakao로 가입한 이메일로 Google 로그인을 하면 기존 회원과 충돌해 오류가 남. 가입했던 provider와 다르면 provider_mismatch 에러로 인증을 실패시키고, 실패 핸들러에서 에러 코드를 프론트로 넘겨 "기존 방식으로 로그인하라"는 안내를 띄우도록 처리
     tech: [Java 17, Spring Boot 3, Spring Security, OAuth2, JWT, JPA, MySQL, Docker, AWS EC2/ALB, GitHub Actions]
     profile_tech: [Spring Boot, Spring Security, OAuth2, JWT, MySQL, AWS, Docker, GitHub Actions]
 
-  - name: skydetect-ai
-    url: https://github.com/CAPSTONE-skydetect/skydetect-ai
-    headline: 드론 · 조류 실시간 AI 분류 시스템
-    period: 2026
+  - name: CAST
+    url: https://github.com/HyeonJeong-S/carbon-aware-scheduler
+    headline: 탄소 인식 클라우드 작업 스케줄링
+    period: 2026.07 – 2026.09
     status: done
-    subtitle: 드론·조류 실시간 AI 분류 시스템 · AI 파이프라인의 분류(C) 파트 전담 · 3인 팀
-    intro: 캡스톤 프로젝트. 공항 인근 상공의 비행 객체를 실시간으로 드론/조류로 분류하는 시스템입니다.
-    oneline: 드론·조류 실시간 AI 분류 시스템 · 분류(C) 파트 전담
-    summary: AI 파이프라인의 분류(C) 단계 전담. RandomForest 분류기와 규칙 기반 사전 필터를 구현했습니다.
+    subtitle: 클라우드 작업을 탄소가 적은 리전·시간대로 옮겨 실행하는 시스템 · 4인 팀 · 시간 이동 스케줄러, 모듈 통합, 테스트·CI 담당
+    intro: 탄소강도 예측(LSTM), 리전 배정(ILP), 실행 시각 조정(스케줄러)을 하나로 이어 탄소 배출을 줄이는 시스템입니다.
+    oneline: 탄소가 적은 리전·시간대로 클라우드 작업을 옮기는 스케줄링 시스템 · 스케줄러와 모듈 통합 담당
+    summary: 실행 시각을 조정하는 time-shift 스케줄러와, LSTM·로드밸런서·스케줄러 세 모듈을 잇는 통합 계층을 맡았습니다. 2025년 1년치 14.6만 작업 시뮬레이션에서 마감 위반 없이 탄소를 줄였습니다.
     details:
-      - title: 공유 스키마 설계 참여
-        body: 구현 전에 A(추적) / B(특징 추출) / C(분류) 파트 간 데이터 계약(schemas.py)을 먼저 확정하는 작업에 참여; C는 FeatureVector를 입력받아 PredictionResult를 반환
-      - title: RF 분류기 구현
-        body: FeatureVector를 입력받아 bird/drone/uncertain을 판정하는 RFClassifier 구현; confidence < 0.6 시 uncertain 처리 로직 설계
-      - title: POST /classify 엔드포인트 구현
-        body: RuleFilter → RFClassifier → PredictionResult 전체 추론 파이프라인을 FastAPI로 연결하고, 특징 중요도 요약을 응답에 포함
-      - title: Sim2Real 재학습
-        body: 노이즈 주입 v2 시뮬레이션 데이터 1,200개로 RF 모델 재학습, 실제 드론 궤적 분류 정확도 개선
-      - title: 규칙 기반 사전 필터
-        body: 품질 미달 트랙을 분류 전에 걸러내는 RuleFilter를 설계하고 pytest로 경계 조건 검증
-    tech: [Python, FastAPI, scikit-learn, Pydantic, joblib, pytest]
-    profile_tech: [Python, FastAPI, scikit-learn, pytest]
+      - title: Time-shift 스케줄러
+        body: 작업 중요도(1~5)로 미룰 수 있는 최대 시간을 정하고, 마감 안의 1시간 슬롯마다 "정규화한 탄소 비용 × α + 지연 비용 × (1−α)" 점수를 매겨 가장 낮은 시각에 실행. 후보를 처음부터 마감 안에서만 고르기 때문에 마감 위반이 0이 되는 구조
+      - title: 시뮬레이션과 비교 실험
+        body: SimPy로 도착, 대기, 실행을 재현하고 비교군 3개(단순 배정 / 탄소 배정 + 즉시 실행 / 탄소 배정 + 시간 이동)를 같은 작업 집합으로 돌려 공간 이동과 시간 이동의 효과를 따로 측정. 시간 이동만으로 즉시 실행 대비 탄소 21.0% 추가 절감, 마감 위반 0
+      - title: 모듈 간 연결 계층 (interface/)
+        body: 리전 코드가 모듈마다 달라(US-NY-NYIS와 US-MIDA-PJM 등) 연결이 안 되던 상태에서, 리전 표기 변환, 예측 조회, 배정 결과 로딩을 한곳에 모음. 각 모듈은 이 계층만 호출하면 되고, 학습된 모델이 없는 환경에서는 더미 예측으로 자동 대체
+      - title: 시뮬레이션 속도 개선
+        body: 매번 LSTM을 호출하던 예측 조회를 미리 계산된 1년치 예측 기록에서 꺼내 쓰도록 바꿈. 조회 1회 342ms → 0.05ms, 14.6만 작업 1년 시뮬레이션 약 14시간 → 26초
+      - title: 테스트와 CI
+        body: pytest 테스트 57개(마감 위반 0 보장, ILP 배정, 탄소 계산 규칙 등)와 ruff 린트를 작성하고, GitHub Actions에서 Python 3.11/3.12로 자동 검증
+    troubles:
+      - title: 대시보드에서 절감률이 −4.0%로 나옴
+        body: 스케줄러는 실제 LSTM 예측을 보고 실행 시각을 골랐는데, 배출량 계산은 더미 데이터로 하고 있었음. 실데이터로 바꾸는 커밋에서 CLI만 바뀌고 GUI 쪽이 빠진 것이 원인. 실측 데이터 로딩을 interface 계층 한곳으로 모으고 양쪽이 같은 함수를 쓰게 해서 GUI 수치가 CLI와 같은 +10.0%로 일치
+      - title: 더 깨끗한 시각을 골랐는데 절감량이 음수
+        body: 시각을 배열 인덱스로 바꿀 때 탐색 코드는 내림(floor), 탄소 계산 코드는 반올림(round)을 써서 167.6시에 제출된 작업을 탐색은 167시 기준, 계산은 168시 기준으로 평가하고 있었음. 오차 0인 예측을 넣어 확인한 결과 round에서 음수 38건, floor로 통일한 뒤 0건. 1년 절감률 20.3% → 21.0%
+    tech: [Python, SimPy, PyTorch, PuLP, Dash, pytest, ruff, GitHub Actions]
+    profile_tech: [Python, SimPy, Dash, pytest, GitHub Actions]
 
-  - name: skydetect-backend
-    url: https://github.com/CAPSTONE-skydetect/skydetect-backend
-    headline: Spring Boot 백엔드
-    period: 2026 (진행 중)
+  - name: SkyDetect
+    url: https://github.com/CAPSTONE-skydetect
+    headline: 드론 · 조류 실시간 분류 시스템
+    period: 2026.03 – 진행 중
     status: wip
-    subtitle: SkyDetect AI 분석 서버와 연동할 Spring Boot 백엔드 · 2인 개발
-    intro: SkyDetect의 AI 분석 서버(FastAPI)와 연동할 Spring Boot 백엔드를 새로 만들고 있습니다.
-    oneline: SkyDetect AI 분석 서버(FastAPI)와 연동할 Spring 백엔드
-    summary: SkyDetect의 AI 분석 서버(FastAPI)와 연동할 백엔드를 만들고 있습니다.
+    subtitle: 공항 인근 비행 물체를 드론/조류로 분류하는 캡스톤 프로젝트 · 3인 팀 · 분류(C) 파트, 웹 서비스 통합, Spring 백엔드 담당
+    intro: 캡스톤 프로젝트. 영상 속 비행 물체를 추적하고 궤적 특징으로 드론과 조류를 분류하는 시스템입니다.
+    oneline: 드론·조류 실시간 분류 시스템 · 분류 파트, 서비스 통합, Spring 백엔드 담당
+    summary: AI 파이프라인의 분류(C) 단계와 웹 서비스 통합을 맡았고, 현재 Spring 백엔드를 만들고 있습니다.
     details:
-      - title: 프로젝트 구성
-        body: Spring Boot 4 · Java 21 기반으로 구성하고 Spring Security · Spring Data JPA · Validation 스택 채택
-      - title: 진행 중
-        body: 분석 요청·결과를 다루는 API와 AI 서버(FastAPI) 연동 계층을 설계하는 중입니다.
-    tech: [Java 21, Spring Boot 4, Spring Security, Spring Data JPA, MySQL]
-    profile_tech: [Spring Boot, Java 21, Spring Security, Spring Data JPA, MySQL]
-
-  - name: Gavel
-    url: https://github.com/donggyu-kang/gavel
-    headline: 실시간 경매 플랫폼
-    period: 2026 (진행 중)
-    status: wip
-    subtitle: 실시간 경매 플랫폼 · 개인 프로젝트
-    intro: 백엔드 기본기를 제대로 익히려고 혼자 만들고 있는 개인 프로젝트입니다.
-    oneline: 동시성 제어를 주제로 만드는 실시간 경매 플랫폼 · 개인 프로젝트
-    summary: 동시성 제어를 주제로 혼자 만드는 개인 프로젝트. 현재 도메인 설계와 JWT 인증 구현 단계입니다.
-    details:
-      - title: 동시성 제어를 주제로 선정
-        body: 여러 사용자가 같은 경매에 동시에 입찰하는 상황을 다루기 위해 동시성 제어를 핵심 학습 주제로 설정
-      - title: 도메인 설계 선행
-        body: User · Balance · Item · Auction · Bid 도메인의 ERD를 먼저 설계하고 문서화
-      - title: 진행 중
-        body: 엔티티 작성과 JWT 인증 구현 단계이며, 이후 WebSocket 실시간 입찰 · Redis 캐싱 · Elasticsearch 검색을 차례로 붙일 계획입니다.
-    tech: [Java, Spring Boot, Spring Security, Spring Data JPA, MySQL]
-    profile_tech: [Spring Boot, Spring Security, Spring Data JPA, MySQL]
+      - title: 파트 간 데이터 형식 합의
+        body: 추적(A), 특징 추출(B), 분류(C) 세 파트가 구현 전에 주고받을 데이터 형식(schemas.py)을 먼저 정하는 작업에 참여. 분류 파트는 FeatureVector를 받아 PredictionResult를 반환
+      - title: 분류기와 판정 API
+        body: 품질이 낮은 궤적을 먼저 거르는 규칙 필터와 RandomForest 분류기를 구현하고, FastAPI로 판정 API 제공. 확신도가 0.6 미만이면 uncertain으로 응답
+      - title: 판정 근거 제공
+        body: 모델 전체의 피처 중요도로는 "이 궤적이 왜 드론인지" 설명할 수 없어서, 각 트리에서 지나간 분기마다의 확률 변화를 해당 피처 몫으로 더해 피처별 기여도로 분해. 기여도 합이 실제 예측 확률과 정확히 같은지 테스트로 확인
+      - title: 웹 서비스 통합
+        body: 영상 업로드, 추적부터 판정까지 이어지는 API, Docker Compose 전체 구성(RF / MiniRocket 판정 서버 분리), React 화면의 모델 선택과 판정 근거 표시 구현
+      - title: Spring 백엔드 (진행 중)
+        body: 관제 화면 사용자 인증을 세션 쿠키 방식으로 구현. 사용자 한 종류, 브라우저 하나, 서버 1대인 구조라 JWT보다 세션 방식이 맞다고 판단
+    troubles:
+      - title: 업로드한 영상이 재생되지 않음
+        body: 확장자가 mp4여도 MPEG-2나 HEVC 코덱이면 브라우저가 재생하지 못해 분석 구간을 지정할 수 없었음. 업로드 시 ffprobe로 코덱을 확인해 H.264가 아니면 ffmpeg로 변환하고, 프레임을 버리거나 복제하지 않게 설정해서 화면의 프레임 번호와 추적 결과가 어긋나지 않게 함
+    tech: [Python, FastAPI, scikit-learn, pytest, Docker Compose, React, Java 21, Spring Boot 4, Spring Security, MySQL]
+    profile_tech: [Python, FastAPI, scikit-learn, Docker, Spring Boot]
 
 awards:
   - title: 프로젝트 최우수상

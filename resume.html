@@ -203,6 +203,16 @@ title: Resume
 
   .r-item-desc li strong { color: #1a1a1a; font-weight: 700; }
 
+  .r-item-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.04em;
+    margin: 10px 0 3px;
+  }
+
+  .r-item-desc.r-trouble li::before { content: "!"; font-weight: 700; top: 2px; }
+
   .r-tech {
     margin-top: 8px;
     display: flex;
@@ -243,7 +253,7 @@ title: Resume
     }
 
     .r-item-desc li { page-break-inside: avoid; }
-    .r-section { page-break-inside: avoid; }
+    .r-item { page-break-inside: avoid; }
   }
 
   @media (max-width: 640px) {
@@ -323,11 +333,20 @@ title: Resume
           {{ pr.subtitle }}
           {%- if pr.award %} · <strong style="color:#10B981;">최우수상 수상</strong>{% endif %}
         </p>
+        <p class="r-item-label">구현</p>
         <ul class="r-item-desc">
           {%- for d in pr.details %}
-          <li><strong>{{ d.title }}</strong> — {{ d.body }}</li>
+          <li><strong>{{ d.title }}</strong> · {{ d.body }}</li>
           {%- endfor %}
         </ul>
+        {%- if pr.troubles %}
+        <p class="r-item-label">문제 해결</p>
+        <ul class="r-item-desc r-trouble">
+          {%- for t in pr.troubles %}
+          <li><strong>{{ t.title }}</strong> · {{ t.body }}</li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
         <div class="r-tech">
           {%- for t in pr.tech %}<span>{{ t }}</span>{% endfor %}
         </div>
