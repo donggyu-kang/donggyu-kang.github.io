@@ -271,9 +271,12 @@ title: Resume
     <a class="btn-action" href="{{ site.data.profile.contacts.github }}" target="_blank">
       <i class="fab fa-github"></i> GitHub 프로필
     </a>
+    {%- comment -%} PDF 저장은 로컬 미리보기에서만 (_config.local.yml 의 resume_local) {%- endcomment -%}
+    {%- if site.resume_local %}
     <button class="btn-action" onclick="window.print()">
       <i class="fas fa-download"></i> PDF 저장 / 인쇄
     </button>
+    {%- endif %}
   </div>
 
   <div class="resume-doc">
@@ -288,7 +291,7 @@ title: Resume
       </div>
       <div style="display:flex; align-items:flex-start; gap:20px;">
         <ul class="r-contacts">
-          <li><i class="fas fa-phone"></i> {{ p.contacts.phone }}</li>
+          <li><i class="fas fa-phone"></i> {{ site.resume_phone | default: p.contacts.phone }}</li>
           <li><i class="fas fa-envelope"></i> <a href="mailto:{{ p.contacts.email }}">{{ p.contacts.email }}</a></li>
           <li><i class="fab fa-github"></i> <a href="{{ p.contacts.github }}" target="_blank">github.com/donggyu-kang</a></li>
           <li><i class="fas fa-globe"></i> <a href="{{ p.contacts.blog }}" target="_blank">donggyu-kang.github.io</a></li>

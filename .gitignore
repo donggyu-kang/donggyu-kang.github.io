@@ -3,3 +3,6 @@ _site
 node_modules
 Gemfile.lock
 *.gem
+
+# 로컬 전용 설정 (실제 전화번호 등). 절대 커밋하지 않는다.
+_config.local.yml
